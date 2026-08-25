@@ -132,7 +132,7 @@ class FlowNavigationTest {
 		JPanel home = showAndGetVisible(mp, MainPanel.HOME);
 		assertNotNull(findButton(home, "PLAY"), "PLAY button missing");
 		assertNotNull(findButton(home, "HIGH SCORES"), "HIGH SCORES button missing");
-		assertNotNull(findButton(home, "THANK-YOU LETTER"), "THANK-YOU LETTER button missing");
+		assertNotNull(findButton(home, "LOGOUT"), "LOGOUT button missing");
 	}
 
 	@Test

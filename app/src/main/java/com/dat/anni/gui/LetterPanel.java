@@ -31,9 +31,9 @@ public class LetterPanel extends BasePanel implements Navigable {
 
 	private void addComps() {
 		lbText = new JLabel();
-		lbText.setFont(UiUtils.loadFont("/fonts/Oswald-VariableFont_wght.ttf", 21f));
+		lbText.setFont(UiUtils.loadFont("/fonts/Oswald-VariableFont_wght.ttf", 18f));
 		lbText.setForeground(java.awt.Color.WHITE);
-		lbText.setBounds(140, 100, 720, 460);
+		lbText.setBounds(140, 80, 720, 480);
 		lbText.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 		add(lbText);
 
@@ -41,7 +41,7 @@ public class LetterPanel extends BasePanel implements Navigable {
 		btNext.setFont(UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 16f));
 		btNext.setForeground(java.awt.Color.BLACK);
 		btNext.setBackground(new java.awt.Color(240, 248, 255));
-		btNext.setBounds(400, 600, 200, 50);
+		btNext.setBounds(400, 590, 200, 50);
 		btNext.addActionListener(e -> main.show(nextCard));
 		add(btNext);
 	}
@@ -53,8 +53,8 @@ public class LetterPanel extends BasePanel implements Navigable {
 		java.awt.Graphics2D g2d = (java.awt.Graphics2D) g.create();
 		g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING,
 				java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
-		int rectWidth = (int) (getWidth() * 0.8);
-		int rectHeight = (int) (getHeight() * 0.8);
+		int rectWidth = (int) (getWidth() * 0.88);
+		int rectHeight = (int) (getHeight() * 0.92);
 		int rectX = (getWidth() - rectWidth) / 2;
 		int rectY = (getHeight() - rectHeight) / 2;
 		g2d.setComposite(java.awt.AlphaComposite.getInstance(
@@ -71,6 +71,6 @@ public class LetterPanel extends BasePanel implements Navigable {
 				.replace("<br>", "\n")   // thống nhất xuống dòng từ formatLetter
 				.replace("&", "&amp;")   // thoát HTML trước khi bọc
 				.replace("\n", "<br>");
-		lbText.setText("<html><div style='line-height: 1.4; font-size: 15px;'>" + body + "</div></html>");
+		lbText.setText("<html><div style='line-height: 1.3; font-size: 14px;'>" + body + "</div></html>");
 	}
 }
