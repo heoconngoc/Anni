@@ -69,6 +69,7 @@ public class PacManPanel extends BasePanel implements Navigable {
 	@Override
 	public void onEnter() {
 		pacMan.resumeGame();
+		pacMan.requestFocusInWindow();
 	}
 
 	@Override

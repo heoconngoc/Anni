@@ -61,6 +61,7 @@ public class SpaceInvadersPanel extends BasePanel implements Navigable {
 	public void onEnter() {
 		spaceInvaders.resetGame();
 		spaceInvaders.startTimers();
+		spaceInvaders.requestFocusInWindow();
 	}
 
 	@Override

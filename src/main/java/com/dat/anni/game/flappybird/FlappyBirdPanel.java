@@ -61,6 +61,7 @@ public class FlappyBirdPanel extends BasePanel implements Navigable {
 	public void onEnter() {
 		flappyBird.resetGame();
 		flappyBird.startTimers();
+		flappyBird.requestFocusInWindow();
 	}
 
 	@Override

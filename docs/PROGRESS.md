@@ -89,6 +89,19 @@
 - Chưa ghi điểm: MatchCards (số lượt) & Minesweeper (thời gian — "càng ít càng tốt")
   cần quy ước riêng, làm kèm ScoreHub ở Phase 6.
 
+### Hotfix sau Phase 6 — mất bàn phím trong game ✅
+- **Triệu chứng:** vào game, nhấn space/mũi tên không phản ứng (dino không nhảy,
+  phi thuyền không bắn) ở TẤT CẢ các game dùng phím.
+- **Chẩn đoán bằng probe tự động** (boot app thật, điều hướng bằng code, đọc
+  KeyboardFocusManager + Timer qua reflection, gửi phím space tổng hợp): navigation
+  đúng, timer chạy đúng — nhưng **FOCUS=NULL** sau khi chuyển màn → KeyListener mù.
+- **Nguyên nhân:** bản cũ "may mắn" có focus nhờ cơ chế auto-transfer khi nút bị
+  setVisible(false); luồng CardLayout mới không còn cơ chế đó.
+- **Fix:** `onEnter()` của 5 wrapper (PacMan/Space/Dino/Flappy/Snake) gọi
+  `requestFocusInWindow()` lên component game. Kiểm chứng: focus trúng đúng game,
+  dino nhảy thật khi nhận phím space (y: 156 → 98).
+- Bài học ghi lại ở D13 + CODING_CONVENTIONS.
+
 ### Phase 6 — Trải nghiệm ✅
 - `SoundManager` (`util/`): SFX CLICK / GAME_OVER / WIN. Ưu tiên file thật trong
   `resources/sfx/<ten>.wav`; **thiếu file thì tự tổng hợp âm** (sine + envelope) nên

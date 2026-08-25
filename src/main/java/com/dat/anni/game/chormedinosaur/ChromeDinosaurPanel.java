@@ -60,6 +60,7 @@ public class ChromeDinosaurPanel extends BasePanel implements Navigable {
 	public void onEnter() {
 		chromeDinosaur.resetGame();
 		chromeDinosaur.startTimers();
+		chromeDinosaur.requestFocusInWindow();
 	}
 
 	@Override

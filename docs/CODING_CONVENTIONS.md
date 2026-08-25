@@ -29,6 +29,8 @@ public class XxxPanel extends JPanel implements MainPanelAware {
   để chuyển màn hình (vẫn dùng bình thường cho ẩn/hiện component nội bộ).
 - **Game loop:** panel chứa game implement thêm `Navigable`, dừng/reset Timer trong
   `onLeave()`, khởi động lại trong `onEnter()` nếu game tự chạy.
+- **Game dùng phím:** trong `onEnter()` phải gọi `game.requestFocusInWindow()` —
+  xem D13. Constructor của game class KHÔNG được start Timer (chỉ start qua onEnter).
 - **Listener chỉ điều phối** — gọi hàm của game/service, KHÔNG viết logic nghiệp vụ trong `actionPerformed`.
 - Không đặt logic game vào Panel; panel chỉ là vỏ hiển thị.
 

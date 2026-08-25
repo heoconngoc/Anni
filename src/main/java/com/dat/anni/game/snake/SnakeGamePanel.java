@@ -55,6 +55,11 @@ public class SnakeGamePanel extends BasePanel implements Navigable {
 	}
 
 	@Override
+	public void onEnter() {
+		snakeGame.requestFocusInWindow();
+	}
+
+	@Override
 	public void onLeave() {
 		snakeGame.restartGame();
 	}

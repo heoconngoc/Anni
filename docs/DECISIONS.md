@@ -78,3 +78,10 @@
 - **Quyết định:** icon cửa sổ = `/icons/PacMan Icon.jpg`. Muốn đổi → thay đường dẫn trong
   GUI hoặc bỏ file riêng rồi trỏ tới. macOS dock icon không đổi bằng setIconImage
   (cần jpackage/bundle riêng) — chấp nhận, không làm trong phase này.
+
+## D13 — Game dùng phím phải tự giành focus trong onEnter ✅
+- **Quyết định:** panel chứa game điều khiển bằng bàn phím bắt buộc gọi
+  `game.requestFocusInWindow()` trong `Navigable.onEnter()`. Không dựa vào cơ chế
+  auto-transfer focus của Swing (fragile, đã gây bug thật).
+- **Kiểm chứng hồi quy:** probe script boot app thật → điều hướng từng game card →
+  xác nhận focus owner là component game trước khi gửi phím tổng hợp.

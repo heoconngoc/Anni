@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 
 import com.dat.anni.gui.BasePanel;
 import com.dat.anni.gui.MainPanel;
-import com.dat.anni.gui.MainPanelAware;;
+import com.dat.anni.gui.MainPanelAware;
 
 import com.dat.anni.util.UiUtils;
 
