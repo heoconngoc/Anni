@@ -1,5 +1,7 @@
 package com.dat.anni.game.pacman;
 
+import com.dat.anni.data.GameCatalog;
+import com.dat.anni.data.ScoreService;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -118,6 +120,17 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 	int lives = 3;
 	boolean gameOver = false;
 
+
+	private boolean scoreRecorded = false;
+
+	private void recordRunScore() {
+		if (scoreRecorded) {
+			return;
+		}
+		scoreRecorded = true;
+		ScoreService.get().record(GameCatalog.PACMAN, score);
+	}
+
 	public PacMan() {
 		setPreferredSize(new Dimension(boardWidth, boardHeight));
 		setBackground(Color.BLACK);
@@ -232,7 +245,8 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 			if (collision(ghost, pacman)) {
 				lives -= 1;
 				if (lives == 0) {
-					gameOver = true;
+gameOver = true;
+					recordRunScore();
 					return;
 				}
 				resetPositions();
@@ -285,6 +299,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void resetGame() {
+		scoreRecorded = false;
 		loadMap();
 		resetPositions();
 		lives = 3;

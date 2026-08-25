@@ -1,5 +1,8 @@
 package com.dat.anni.game.chormedinosaur;
 
+import com.dat.anni.data.GameCatalog;
+import com.dat.anni.data.ScoreService;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -98,7 +101,6 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
 
 		// game timer
 		gameLoop = new Timer(1000 / 60, this); // 1000/60 = 60 frames per 1000ms (1s), update
-		gameLoop.start();
 
 		// place cactus timer
 		placeCactusTimer = new Timer(1500, new ActionListener() {
@@ -107,7 +109,6 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
 				placeCactus();
 			}
 		});
-		placeCactusTimer.start();
 
 		// Đọc điểm cao nhất từ Preferences khi khởi động
 		highScore = prefs.getInt("DinohighScore", 0); // Lấy điểm cao nhất đã lưu, nếu không có thì mặc định là 0
@@ -135,7 +136,24 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
 		}
 	}
 
+
+	private boolean scoreRecorded = false;
+
+	private void recordRunScore() {
+		if (scoreRecorded) {
+			return;
+		}
+		scoreRecorded = true;
+		ScoreService.get().record(GameCatalog.DINOSAUR, score);
+	}
+
+	public void startTimers() {
+		gameLoop.start();
+		placeCactusTimer.start();
+	}
+
 	public void resetGame() {
+		scoreRecorded = false;
 		gameLoop.stop();
 		placeCactusTimer.stop();
 		dinosaur.y = dinosaurY;
@@ -193,6 +211,7 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
 
 			if (collision(dinosaur, cactus)) {
 				gameOver = true;
+				recordRunScore();
 				dinosaur.img = dinosaurDeadImg;
 				setBackground(Color.RED.darker()); // đổi màu nền khi va chạm
 				Timer flashTimer = new Timer(200, new ActionListener() {
@@ -260,8 +279,7 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
 				score = 0;
 				gameOver = false;
 				gameLoop.start();
-				placeCactusTimer.start();
-			}
+					}
 		}
 	}
 

@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import com.dat.anni.config.Config;
+import com.dat.anni.data.AppSession;
 
 import com.dat.anni.util.UiUtils;
 
@@ -190,6 +191,7 @@ public class MenuPanel extends BasePanel {
 						if (Config.APP_PASSWORD.equals(pass)) {
 							loginTimes = 0;
 							wrongTimes = 0;
+							AppSession.login(user);
 							resetFields();
 							showPasswordFields(false);
 							main.show(MainPanel.SPECIAL_1);
@@ -209,6 +211,7 @@ public class MenuPanel extends BasePanel {
 					}
 
 				} else {
+					AppSession.login(tfUser.getText());
 					String letterBody = Config.formatLetter(Config.GUEST_LETTER, tfUser.getText());
 					main.setLbLetter("<html>" + "<div style='line-height: 1.5;'>" + letterBody + "</div>"
 							+ "</html>");

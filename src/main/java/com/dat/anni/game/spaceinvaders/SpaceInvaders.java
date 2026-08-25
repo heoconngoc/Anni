@@ -1,5 +1,8 @@
 package com.dat.anni.game.spaceinvaders;
 
+import com.dat.anni.data.GameCatalog;
+import com.dat.anni.data.ScoreService;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -112,6 +115,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 		// game timer
 		gameLoop = new Timer(1000 / 60, this); // 1000/60 = 16.6
 		createAliens();
+	}
+
+	public void startTimers() {
 		gameLoop.start();
 	}
 
@@ -173,6 +179,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 
 				if (alien.y >= ship.y) {
 					gameOver = true;
+					recordRunScore();
 				}
 			}
 		}
@@ -224,7 +231,19 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 		alienCount = alienArray.size();
 	}
 
+
+	private boolean scoreRecorded = false;
+
+	private void recordRunScore() {
+		if (scoreRecorded) {
+			return;
+		}
+		scoreRecorded = true;
+		ScoreService.get().record(GameCatalog.SPACE_INVADERS, score);
+	}
+
 	public void resetGame() {
+		scoreRecorded = false;
 		gameLoop.stop();
 		ship.x = shipX;
 		bulletArray.clear();

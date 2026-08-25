@@ -18,3 +18,4 @@ bin/
 
 # Maven shade
 dependency-reduced-pom.xml
+anni.db

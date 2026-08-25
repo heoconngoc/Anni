@@ -1,5 +1,8 @@
 package com.dat.anni.game.flappybird;
 
+import com.dat.anni.data.GameCatalog;
+import com.dat.anni.data.ScoreService;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -106,11 +109,8 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 				placePipes();
 			}
 		});
-		placePipeTimer.start();
-
 		// game timer
 		gameLoop = new Timer(1000 / 60, this); // how long it takes to start timer, milliseconds gone between frames
-		gameLoop.start();
 
 		// Đọc điểm cao nhất từ Preferences khi khởi động
 		highScore = prefs.getDouble("FlappyhighScore", 0.0); // Đọc highScore từ Preferences, mặc định là 0.0 nếu không
@@ -133,7 +133,24 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 		pipes.add(bottomPipe);
 	}
 
+
+	private boolean scoreRecorded = false;
+
+	private void recordRunScore() {
+		if (scoreRecorded) {
+			return;
+		}
+		scoreRecorded = true;
+		ScoreService.get().record(GameCatalog.FLAPPY_BIRD, (int) score);
+	}
+
+	public void startTimers() {
+		placePipeTimer.start();
+		gameLoop.start();
+	}
+
 	public void resetGame() {
+		scoreRecorded = false;
 		gameLoop.stop();
 		placePipeTimer.stop();
 		bird.y = birdY;
@@ -194,11 +211,13 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
 			if (collision(bird, pipe)) {
 				gameOver = true;
+				recordRunScore();
 			}
 		}
 
 		if (bird.y > boardHeight) {
 			gameOver = true;
+			recordRunScore();
 		}
 	}
 

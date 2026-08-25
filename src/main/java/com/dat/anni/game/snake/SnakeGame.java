@@ -1,5 +1,7 @@
 package com.dat.anni.game.snake;
 
+import com.dat.anni.data.GameCatalog;
+import com.dat.anni.data.ScoreService;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -33,6 +35,17 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 	private int score = 0; // Điểm số
 	private int highScore = 0; // Điểm cao nhất
 	private int foodValue = 1; // Giá trị ban đầu của thức ăn (điểm)
+
+
+	private boolean scoreRecorded = false;
+
+	private void recordRunScore() {
+		if (scoreRecorded) {
+			return;
+		}
+		scoreRecorded = true;
+		ScoreService.get().record(GameCatalog.SNAKE, score);
+	}
 
 	public SnakeGame() {
 		setPreferredSize(new Dimension(boardWidth, boardHeight));
@@ -83,14 +96,16 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
 		// Kiểm tra nếu rắn vượt ra ngoài lưới
 		if (newX < 0 || newY < 0 || newX >= gridSize || newY >= gridSize) {
-			gameOver = true;
+gameOver = true;
+			recordRunScore();
 			return;
 		}
 
 		// Kiểm tra nếu rắn tự va vào mình
 		for (Tile part : snakeBody) {
 			if (part.x == newX && part.y == newY) {
-				gameOver = true;
+gameOver = true;
+				recordRunScore();
 				return;
 			}
 		}
@@ -228,6 +243,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void restartGame() {
+		scoreRecorded = false;
 		snakeHead = new Tile(gridSize / 2, gridSize / 2);
 		snakeBody.clear();
 		placeFood();

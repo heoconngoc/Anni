@@ -12,7 +12,7 @@
 | 2 | `.env` bảo mật credentials (dotenv-java + Config.java) | ✅ | `feat:` |
 | 3 | Điều hướng CardLayout chuẩn (named cards, dừng Timer) | ✅ | `refactor:` |
 | 4 | Refactor trùng lặp (UiUtils.loadFont, BasePanel) | ✅ | `refactor:` |
-| 5 | Tầng dữ liệu SQLite (repository interfaces + DAO + JUnit 5/Mockito) | ⬜ | |
+| 5 | Tầng dữ liệu SQLite (repository interfaces + DAO + JUnit 5/Mockito) | ✅ | `feat:` |
 | 6 | Trải nghiệm (SoundManager SFX, ScoreHubPanel, icon app) | ⬜ | |
 | 7 | Spring Boot backend (multi-module client/server, PostgreSQL/H2, Flyway) | ⬜ | |
 | 8 | Client ↔ Server (HTTP repository + fallback SQLite offline) | ⬜ | |
@@ -74,12 +74,26 @@
   (Game/Game2/Normal/Special1-2-3) giữ paintComponent chỉ vẽ phần overlay.
 - Tổng: **32 file, −1379 / +242 dòng**. `mvn clean verify` xanh, smoke test sạch.
 
+### Phase 5 — Tầng dữ liệu SQLite ✅
+- Package `com.dat.anni.data`: `Database` (SQLite 1 connection, tự tạo schema users/scores),
+  `GameCatalog`, `AppSession` (user hiện tại), `ScoreEntry`, `ScoreService` (facade cho GUI).
+- Repository interfaces (`repo/UserRepository`, `repo/ScoreRepository`) + implementation
+  `sqlite/*` — Phase 8 thay bản HTTP không phải sửa GUI (đúng D05).
+- Ghi điểm lúc game over ở **6 game** (Snake, PacMan, Space, Dino, Flappy, WhacAMole)
+  qua hook `recordRunScore()` có guard chống ghi đôi; reset khi chơi lại.
+- **Bắt được bug kiến trúc:** game start Timer ngay trong constructor → chạy ngầm trên
+  card ẩn từ lúc boot, tự chết và ghi điểm rác mỗi lần mở app. Fix: constructor không
+  start; thêm `startTimers()`, wrapper gọi trong `onEnter()`; `onLeave` vẫn `resetGame()`.
+- Login ở MenuPanel giờ gọi `AppSession.login(...)` (cả nhánh user đặc biệt lẫn khách).
+- Test: `ScoreRepositoryTest` (4 test, `@TempDir` + `Database.usePath`) — tổng **14/14** xanh.
+- Chưa ghi điểm: MatchCards (số lượt) & Minesweeper (thời gian — "càng ít càng tốt")
+  cần quy ước riêng, làm kèm ScoreHub ở Phase 6.
+
 ## 🔄 Đang làm
-(không có — mọi phase đã đóng)
+(không có)
 
 ## ⬜ Việc tiếp theo
-- **Phase 5**: tầng dữ liệu SQLite — schema users/scores, DAO interface,
-  tích hợp điểm cao các game.
+- **Phase 6**: trải nghiệm — SoundManager SFX, ScoreHubPanel (bảng xếp hạng), icon app.
 
 ## Vướng mắc / Lưu ý kỹ thuật
 - Navigation hiện dùng hack `setVisible(true/false)` với CardLayout — hoạt động nhưng fragile; sẽ sửa ở Phase 3, đừng nhân rộng pattern này khi viết panel mới.

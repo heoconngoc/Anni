@@ -1,5 +1,8 @@
 package com.dat.anni.game.whacamole;
 
+import com.dat.anni.data.GameCatalog;
+import com.dat.anni.data.ScoreService;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -36,12 +39,22 @@ public class WhacAMole extends JPanel {
 	private int turnCount = 0; // Đếm số lượt
 	private Random random = new Random();
 
+
+	private boolean scoreRecorded = false;
+
+	private void recordRunScore() {
+		if (scoreRecorded) {
+			return;
+		}
+		scoreRecorded = true;
+		ScoreService.get().record(GameCatalog.WHAC_A_MOLE, score);
+	}
+
 	public WhacAMole() {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(800, 600));
 
 		initGameComponents();
-		startTimers();
 		loadHighScore();
 	}
 
@@ -103,6 +116,7 @@ public class WhacAMole extends JPanel {
 			}
 		} else if (currPlantTiles.contains(tile)) {
 			stopTimers();
+			recordRunScore();
 			textLabel.setText("Game Over! Final Score: " + score);
 			showRestartButton();
 		}
@@ -159,6 +173,7 @@ public class WhacAMole extends JPanel {
 	}
 
 	public void restartGame() {
+		scoreRecorded = false;
 		// Reset các trạng thái trò chơi
 		score = 0;
 		turnCount = 0;

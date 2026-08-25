@@ -59,7 +59,8 @@ public class SpaceInvadersPanel extends BasePanel implements Navigable {
 
 	@Override
 	public void onEnter() {
-		spaceInvaders.resumeGame();
+		spaceInvaders.resetGame();
+		spaceInvaders.startTimers();
 	}
 
 	@Override

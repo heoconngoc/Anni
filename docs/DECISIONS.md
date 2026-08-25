@@ -57,3 +57,12 @@
   `paintComponent` và gọi `super` trước.
 - Game logic class (PacMan, SnakeGame...) vẫn extends JPanel — không ép qua BasePanel.
 - **Trạng thái:** đã hoàn thành Phase 4.
+
+## D10 — Data layer: repository interface + SQLite trước ✅ (Phase 5)
+- **Quyết định:** GUI chỉ đụng `ScoreService`; bên dưới là `UserRepository`/`ScoreRepository`
+  interfaces + impl SQLite. Phase 8 thay impl bằng HTTP client, GUI không đổi.
+- SQLite dùng 1 connection duy nhất cho cả app (desktop, EDT đơn luồng là chính).
+- Điểm hiện nay đều là "càng cao càng tốt"; game kiểu thời gian/lượt ít hơn sẽ thêm sau.
+- Game KHÔNG được start Timer trong constructor (chỉ start ở wrapper `onEnter`) —
+  tránh chạy ngầm + ghi điểm rác (bug thật đã bắt được trong Phase 5).
+- File DB mặc định `anni.db` (gitignored), override bằng `DB_PATH` trong .env.
