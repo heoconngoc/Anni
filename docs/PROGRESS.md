@@ -142,12 +142,20 @@
 - **Phạm vi phase này:** server đứng độc lập. Client vẫn ghi SQLite local —
   nối client → HTTP API là Phase 8.
 
+## ✅ Phase 8 — Client gọi HTTP API — HOÀN THÀNH
+- Trừu tượng mới `ScoreStore` trong app: `SqliteScoreStore` (offline) và
+  `HttpScoreStore` (java.net.http + Jackson, gọi API Phase 7).
+- `ScoreService` tự chọn: .env có `API_URL` → HTTP-first + fallback SQLite
+  khi server chết; không có → thuần offline. **GUI không đổi dòng nào** (D10).
+- Verify: 5 test mới (fake server JDK + fallback), tổng 26 test xanh;
+  smoke thật: server jar chạy, HttpScoreStore record/top/best OK.
+
 ## 🔄 Đang làm
 (không có)
 
 ## ⬜ Việc tiếp theo
-- **Phase 8**: đổi client sang HTTP (ScoreService gọi REST API của server,
-  giữ SQLite làm offline fallback nếu muốn)
+- **Phase 9**: CI GitHub Actions (mvn -B clean verify trên JDK 17)
+- **Phase 10**: Docker cho server + compose với PostgreSQL
 
 ## Vướng mắc / Lưu ý kỹ thuật
 - Navigation hiện dùng hack `setVisible(true/false)` với CardLayout — hoạt động nhưng fragile; sẽ sửa ở Phase 3, đừng nhân rộng pattern này khi viết panel mới.

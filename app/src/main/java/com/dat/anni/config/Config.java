@@ -26,6 +26,9 @@ public final class Config {
 	/** Đường dẫn file SQLite (tương đối theo thư mục chạy app hoặc tuyệt đối). */
 	public static final String DB_PATH = get("DB_PATH", "anni.db");
 
+	/** Base URL REST API của server (vd http://localhost:8080/api). Rỗng = offline SQLite. */
+	public static final String API_URL = get("API_URL", "");
+
 	private Config() {
 	}
 

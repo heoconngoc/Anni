@@ -2,30 +2,31 @@ package com.dat.anni.data;
 
 import java.util.List;
 
-import com.dat.anni.data.repo.ScoreRepository;
-import com.dat.anni.data.repo.UserRepository;
-import com.dat.anni.data.sqlite.SqliteScoreRepository;
-import com.dat.anni.data.sqlite.SqliteUserRepository;
+import com.dat.anni.config.Config;
+import com.dat.anni.data.http.HttpScoreStore;
 
 /**
  * Facade cho GUI/game: ghi điểm và đọc bảng xếp hạng.
- * Phase 8 chỉ cần thay implementation bên dưới bằng bản HTTP — GUI không đổi.
+ * Phase 8: nếu .env có API_URL thì ưu tiên HTTP tới server, lỗi thì
+ * tự rơi về SQLite local. Không có API_URL → thuần offline như cũ.
  */
 public final class ScoreService {
 
 	private static ScoreService instance;
 
-	private final UserRepository users;
-	private final ScoreRepository scores;
+	private final ScoreStore store;
 
-	private ScoreService(UserRepository users, ScoreRepository scores) {
-		this.users = users;
-		this.scores = scores;
+	private ScoreService(ScoreStore store) {
+		this.store = store;
 	}
 
 	public static synchronized ScoreService get() {
 		if (instance == null) {
-			instance = new ScoreService(new SqliteUserRepository(), new SqliteScoreRepository());
+			ScoreStore local = new SqliteScoreStore();
+			String apiUrl = Config.API_URL;
+			instance = new ScoreService(apiUrl.isBlank()
+					? local
+					: new FallbackScoreStore(new HttpScoreStore(apiUrl), local));
 		}
 		return instance;
 	}
@@ -35,18 +36,16 @@ public final class ScoreService {
 		if (score <= 0) {
 			return;
 		}
-		long userId = users.upsert(AppSession.currentUser());
-		scores.save(userId, game.id(), score);
+		store.record(AppSession.currentUser(), game.id(), score);
 	}
 
 	/** Top bảng xếp hạng của một game. */
 	public List<ScoreEntry> top(GameCatalog game, int limit) {
-		return scores.top(game.id(), limit);
+		return store.top(game.id(), limit);
 	}
 
 	/** Điểm cao nhất của người dùng hiện tại trong một game (0 nếu chưa có). */
 	public int bestForCurrentUser(GameCatalog game) {
-		long userId = users.upsert(AppSession.currentUser());
-		return scores.best(userId, game.id()).orElse(0);
+		return store.best(AppSession.currentUser(), game.id());
 	}
 }
