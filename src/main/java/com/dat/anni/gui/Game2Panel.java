@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.gui;
+package com.dat.anni.gui;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

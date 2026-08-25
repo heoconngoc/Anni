@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.pacman;
+package com.dat.anni.game.pacman;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import main.java.com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanel;
 
 public class PacManPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

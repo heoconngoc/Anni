@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.matchcard;
+package com.dat.anni.game.matchcard;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import main.java.com.dat.anni.gui.MainPanel;;
+import com.dat.anni.gui.MainPanel;;
 
 public class Match_StartPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

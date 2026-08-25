@@ -18,15 +18,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class NormalPanel extends JPanel {
+public class Special3Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	private Font buttonFont, normalFont;
-	private JLabel lbTitle, lbLetter;
+	private JLabel lbLetter;
 	private JButton btBack, btBackToMenu;
 	private MainPanel main;
 
-	public NormalPanel() {
+	public Special3Panel() {
 		initPanel();
 		addComps();
 		addEvents();
@@ -38,18 +38,18 @@ public class NormalPanel extends JPanel {
 
 		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
 			if (fontStream != null) {
-				buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(20f);
+				buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(16f);
 			} else {
 				throw new IOException("Font không tìm thấy");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			buttonFont = new Font("Arial", Font.PLAIN, 30);
+			buttonFont = new Font("Arial", Font.PLAIN, 20);
 		}
 
 		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/Oswald-VariableFont_wght.ttf")) {
 			if (fontStream != null) {
-				normalFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(24f);
+				normalFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(18f);
 			} else {
 				throw new IOException("Font không tìm thấy");
 			}
@@ -60,30 +60,29 @@ public class NormalPanel extends JPanel {
 	}
 
 	private void addComps() {
-		lbTitle = new JLabel("Lời Tác Giả");
-		lbTitle.setFont(new Font("Arial", Font.BOLD, 50));
-		lbTitle.setForeground(Color.CYAN);
-		lbTitle.setBounds(360, 100, 280, 80);
-		add(lbTitle);
-
-		lbLetter = new JLabel();
+		lbLetter = new JLabel("<html>" + "<div style='line-height: 1.5;'>"
+				+ "Nhớ là dat luôn bên cạnh bé. luôn đứng về phía bé. Nếu có điều gì bé tự hỏi có nên kể dat nghe không, đừng nghĩ, kể dat luôn nhé! Đừng lo bất cứ điều gì. Vẫn là những lời nhắc nhở cũ thôi, nhưng mà bé đừng có ngó lơ và để đó nhớ. Nhớ là ăn no, ngủ đủ, và cố gắng học tập để theo đuổi ước mơ nhé. dat tin, dù mất bao lâu thời gian, bé cũng sẽ đạt được ước mơ đó! <br>"
+				+ "<br>"
+				+ "Trò chơi này dat làm riêng cho bé. Đây là lần đầu tiên dat làm một dự án to, và chi tiết đến vậy. Mặc dù trông nó đơn giản vậy thui, nhưng mà với một con gà như dat thì cũng là một câu chuyện lớn đó. Lâu lâu hãy mở nó lên chơi nhé, khi chán, khi không biết làm gì, khi buồn, khi nhớ dat. Khi nào có điều muốn nói mà không dám nói thì ngồi chơi, chơi chán rồi thì gọi kể dat nghe nhé!<br>"
+				+ "<br>" + "dat yêu bé" + "<br>" + "<br>" + "Amherst, 25/01/2024." + "<br>" + "<br>" + "dat" + "</div>"
+				+ "</html>");
 		lbLetter.setFont(normalFont);
 		lbLetter.setForeground(Color.WHITE);
-		lbLetter.setBounds(200, 185, 600, 300);
+		lbLetter.setBounds(120, 60, 750, 500);
 		add(lbLetter);
 
 		btBack = new JButton("Back");
 		btBack.setFont(buttonFont);
 		btBack.setForeground(Color.BLACK);
 		btBack.setBackground(new Color(240, 248, 255));
-		btBack.setBounds(370, 520, 120, 50);
+		btBack.setBounds(390, 550, 100, 40);
 		add(btBack);
 
 		btBackToMenu = new JButton("Menu");
 		btBackToMenu.setFont(buttonFont);
 		btBackToMenu.setForeground(Color.BLACK);
 		btBackToMenu.setBackground(new Color(240, 248, 255));
-		btBackToMenu.setBounds(510, 520, 120, 50);
+		btBackToMenu.setBounds(510, 550, 100, 40);
 		add(btBackToMenu);
 	}
 
@@ -92,7 +91,7 @@ public class NormalPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMenuPanel();
+				main.showSpecial2Panel();
 				setVisible(false);
 			}
 		});
@@ -119,8 +118,8 @@ public class NormalPanel extends JPanel {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// Kích thước và vị trí của hình chữ nhật bo tròn
-		int rectWidth = (int) (getWidth() * 0.8); // Chiếm 80% chiều rộng
-		int rectHeight = (int) (getHeight() * 0.8); // Chiếm 80% chiều cao
+		int rectWidth = (int) (getWidth() * 0.85); // Chiếm 80% chiều rộng
+		int rectHeight = (int) (getHeight() * 0.85); // Chiếm 80% chiều cao
 		int rectX = (getWidth() - rectWidth) / 2; // Căn giữa theo chiều ngang
 		int rectY = (getHeight() - rectHeight) / 2; // Căn giữa theo chiều dọc
 
@@ -136,9 +135,5 @@ public class NormalPanel extends JPanel {
 
 	public void setMainPanel(MainPanel main) {
 		this.main = main;
-	}
-
-	public void setLbLetter(String string) {
-		lbLetter.setText(string);
 	}
 }

@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.snake;
+package com.dat.anni.game.snake;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import main.java.com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanel;
 
 public class Snake_RulePanel extends JPanel {
 	private static final long serialVersionUID = 1L;

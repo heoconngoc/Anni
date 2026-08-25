@@ -219,7 +219,7 @@
 //	}
 //}
 
-package main.java.com.dat.anni.game.matchcard;
+package com.dat.anni.game.matchcard;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

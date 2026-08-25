@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.minesweeper;
+package com.dat.anni.game.minesweeper;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import main.java.com.dat.anni.gui.MainPanel;;
+import com.dat.anni.gui.MainPanel;;
 
 public class Mines_StartPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

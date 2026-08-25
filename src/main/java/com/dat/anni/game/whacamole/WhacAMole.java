@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.whacamole;
+package com.dat.anni.game.whacamole;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

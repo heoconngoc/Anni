@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.pacman;
+package com.dat.anni.game.pacman;
 
 import java.awt.Color;
 import java.awt.Dimension;

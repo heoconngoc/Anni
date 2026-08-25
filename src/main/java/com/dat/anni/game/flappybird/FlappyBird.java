@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.flappybird;
+package com.dat.anni.game.flappybird;
 
 import java.awt.Color;
 import java.awt.Dimension;

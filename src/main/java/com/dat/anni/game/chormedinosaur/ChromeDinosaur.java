@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.chormedinosaur;
+package com.dat.anni.game.chormedinosaur;
 
 import java.awt.Color;
 import java.awt.Dimension;

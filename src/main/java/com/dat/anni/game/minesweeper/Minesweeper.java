@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.minesweeper;
+package com.dat.anni.game.minesweeper;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

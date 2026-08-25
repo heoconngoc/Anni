@@ -8,7 +8,7 @@
 | # | Phase | Trạng thái | Commit |
 |---|---|---|---|
 | 0 | Nền tảng tài liệu (`AGENTS.md`, `docs/`) | ✅ | `docs:` |
-| 1 | Chuẩn hóa Maven (package, resources, .gitignore) | 🔄 | |
+| 1 | Chuẩn hóa Maven (package, resources, .gitignore) | ✅ | `refactor:` |
 | 2 | `.env` bảo mật credentials (dotenv-java + Config.java) | ⬜ | |
 | 3 | Điều hướng CardLayout chuẩn (named cards, dừng Timer) | ⬜ | |
 | 4 | Refactor trùng lặp (UiUtils.loadFont, BasePanel) | ⬜ | |
@@ -23,13 +23,19 @@
 ### Phase 0 — Nền tảng tài liệu ✅
 - Tạo `AGENTS.md`, `docs/PROGRESS.md`, `ARCHITECTURE.md`, `CODING_CONVENTIONS.md`, `DEFINITION_OF_DONE.md`, `DECISIONS.md`.
 
-### Phase 1 — Chuẩn hóa Maven 🔄
-- Kế hoạch: đổi package `main.java.com.dat.anni.*` → `com.dat.anni.*`; chuyển tài nguyên sang
-  `src/main/resources/`; xóa cấu hình Eclipse (`.classpath`, `.project`, `.settings/`, `bin/`);
-  thêm exec + shade plugin; viết lại `.gitignore`.
+### Phase 1 — Chuẩn hóa Maven ✅
+- Đổi package `main.java.com.dat.anni.*` → `com.dat.anni.*` (43 file Java, 0 sót).
+- Chuyển tài nguyên `fonts/`, `imgs/`, `gifs/`, `icons/` sang `src/main/resources/` (đã đối chiếu
+  100% đường dẫn `getResource` trong code — khớp hết, kể cả tên file có dấu cách).
+- Xóa `.classpath`, `.project`, `.settings/`, `bin/`; gỡ khỏi git tracking (trước đó `bin/*.class`
+  bị commit); viết lại `.gitignore`.
+- `pom.xml`: UTF-8, pin compiler/surefire, `exec-maven-plugin` (dev), `maven-shade-plugin`
+  (fat jar `target/anni-arcade.jar` ~32MB chạy trực tiếp được).
+- Kiểm chứng: `mvn clean verify` exit 0; smoke test `java -jar target/anni-arcade.jar`
+  chạy 6s không crash, log không có exception.
 
 ## 🔄 Đang làm
-- **Phase 1 — Chuẩn hóa Maven**
+(không có — mọi phase đã đóng)
 
 ## ⬜ Việc tiếp theo
 - **Phase 2**: tạo `.env.example` + class `Config` (dotenv-java, `ignoreIfMissing()` + fallback), bỏ hardcode user/mật khẩu trong `MenuPanel.java`.

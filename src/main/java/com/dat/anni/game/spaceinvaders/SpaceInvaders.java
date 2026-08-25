@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.spaceinvaders;
+package com.dat.anni.game.spaceinvaders;
 
 import java.awt.Color;
 import java.awt.Dimension;

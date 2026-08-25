@@ -1,34 +1,34 @@
-package main.java.com.dat.anni.gui;
+package com.dat.anni.gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JPanel;
 
-import main.java.com.dat.anni.game.chormedinosaur.ChromeDinosaurPanel;
-import main.java.com.dat.anni.game.chormedinosaur.Dino_RulePanel;
-import main.java.com.dat.anni.game.chormedinosaur.Dino_StartPanel;
-import main.java.com.dat.anni.game.flappybird.FlappyBirdPanel;
-import main.java.com.dat.anni.game.flappybird.Flappy_RulePanel;
-import main.java.com.dat.anni.game.flappybird.Flappy_StartPanel;
-import main.java.com.dat.anni.game.matchcard.MatchCardPanel;
-import main.java.com.dat.anni.game.matchcard.Match_RulePanel;
-import main.java.com.dat.anni.game.matchcard.Match_StartPanel;
-import main.java.com.dat.anni.game.minesweeper.Mines_RulePanel;
-import main.java.com.dat.anni.game.minesweeper.Mines_StartPanel;
-import main.java.com.dat.anni.game.minesweeper.MinesweeperPanel;
-import main.java.com.dat.anni.game.pacman.PacManPanel;
-import main.java.com.dat.anni.game.pacman.Pac_RulePanel;
-import main.java.com.dat.anni.game.pacman.Pac_StartPanel;
-import main.java.com.dat.anni.game.snake.SnakeGamePanel;
-import main.java.com.dat.anni.game.snake.Snake_RulePanel;
-import main.java.com.dat.anni.game.snake.Snake_StartPanel;
-import main.java.com.dat.anni.game.spaceinvaders.SpaceInvadersPanel;
-import main.java.com.dat.anni.game.spaceinvaders.Space_RulePanel;
-import main.java.com.dat.anni.game.spaceinvaders.Space_StartPanel;
-import main.java.com.dat.anni.game.whacamole.WhacAMolePanel;
-import main.java.com.dat.anni.game.whacamole.Whac_RulePanel;
-import main.java.com.dat.anni.game.whacamole.Whac_StartPanel;
+import com.dat.anni.game.chormedinosaur.ChromeDinosaurPanel;
+import com.dat.anni.game.chormedinosaur.Dino_RulePanel;
+import com.dat.anni.game.chormedinosaur.Dino_StartPanel;
+import com.dat.anni.game.flappybird.FlappyBirdPanel;
+import com.dat.anni.game.flappybird.Flappy_RulePanel;
+import com.dat.anni.game.flappybird.Flappy_StartPanel;
+import com.dat.anni.game.matchcard.MatchCardPanel;
+import com.dat.anni.game.matchcard.Match_RulePanel;
+import com.dat.anni.game.matchcard.Match_StartPanel;
+import com.dat.anni.game.minesweeper.Mines_RulePanel;
+import com.dat.anni.game.minesweeper.Mines_StartPanel;
+import com.dat.anni.game.minesweeper.MinesweeperPanel;
+import com.dat.anni.game.pacman.PacManPanel;
+import com.dat.anni.game.pacman.Pac_RulePanel;
+import com.dat.anni.game.pacman.Pac_StartPanel;
+import com.dat.anni.game.snake.SnakeGamePanel;
+import com.dat.anni.game.snake.Snake_RulePanel;
+import com.dat.anni.game.snake.Snake_StartPanel;
+import com.dat.anni.game.spaceinvaders.SpaceInvadersPanel;
+import com.dat.anni.game.spaceinvaders.Space_RulePanel;
+import com.dat.anni.game.spaceinvaders.Space_StartPanel;
+import com.dat.anni.game.whacamole.WhacAMolePanel;
+import com.dat.anni.game.whacamole.Whac_RulePanel;
+import com.dat.anni.game.whacamole.Whac_StartPanel;
 
 public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

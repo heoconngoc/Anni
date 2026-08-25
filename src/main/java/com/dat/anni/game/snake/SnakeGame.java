@@ -1,4 +1,4 @@
-package main.java.com.dat.anni.game.snake;
+package com.dat.anni.game.snake;
 
 import java.awt.Color;
 import java.awt.Dimension;
