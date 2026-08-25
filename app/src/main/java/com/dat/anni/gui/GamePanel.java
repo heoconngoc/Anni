@@ -102,7 +102,7 @@ public class GamePanel extends BasePanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.show(MainPanel.START);
+				main.show(MainPanel.HOME);
 			}
 		});
 

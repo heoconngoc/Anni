@@ -7,95 +7,129 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import com.dat.anni.data.AppSession;
 import com.dat.anni.data.GameCatalog;
 import com.dat.anni.data.ScoreEntry;
 import com.dat.anni.data.ScoreService;
 import com.dat.anni.util.UiUtils;
 
 /**
- * Bảng xếp hạng: top người chơi mỗi game + điểm tốt nhất của người hiện tại.
+ * Bảng xếp hạng: lưới 6 game × top-3, kèm điểm tốt nhất của người chơi hiện tại.
  */
 public class ScoreHubPanel extends BasePanel implements Navigable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Font titleFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 40f);
-	private final Font normalFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 14f);
-	private final Font smallFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 12f);
+	private static final Color COL_GOLD = new Color(255, 215, 0);
+	private static final Color COL_SILVER = new Color(192, 192, 192);
+	private static final Color COL_BRONZE = new Color(205, 127, 50);
+	private static final Color COL_EMPTY = new Color(110, 118, 140);
+	private static final Color COL_GAME = new Color(255, 209, 102);
+	private static final Color COL_HEADER = new Color(136, 146, 176);
 
-	private final JLabel[] rows = new JLabel[GameCatalog.values().length];
+	private final Font gameFont = UiUtils.loadFont("/fonts/Oswald-VariableFont_wght.ttf", 20f);
+	private final Font cellFont = UiUtils.loadFont("/fonts/Oswald-VariableFont_wght.ttf", 17f);
+
+	private final JLabel[] gameLabels = new JLabel[GameCatalog.values().length];
+	private final JLabel[][] podium = new JLabel[GameCatalog.values().length][3];
+	private JLabel lbPlayer;
 
 	public ScoreHubPanel() {
 		super(null);
-		initPanel();
+		setBackground(new Color(16, 20, 36));
 		addComps();
-		addEvents();
-	}
-
-	private void initPanel() {
-		setBackground(new Color(20, 24, 40));
 	}
 
 	private void addComps() {
 		JLabel lbTitle = new JLabel("HIGH SCORES", JLabel.CENTER);
-		lbTitle.setFont(titleFont);
+		lbTitle.setFont(UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 30f));
 		lbTitle.setForeground(Color.CYAN);
-		lbTitle.setBounds(300, 60, 400, 80);
+		lbTitle.setBounds(250, 28, 500, 55);
 		add(lbTitle);
 
-		GameCatalog[] games = GameCatalog.values();
-		int rowHeight = 62;
-		int y = 170;
-		for (int i = 0; i < games.length; i++) {
-			rows[i] = new JLabel();
-			rows[i].setFont(normalFont);
-			rows[i].setForeground(Color.WHITE);
-			rows[i].setBounds(230, y, 560, rowHeight);
-			add(rows[i]);
-			y += rowHeight + 6;
+		lbPlayer = new JLabel("", JLabel.CENTER);
+		lbPlayer.setFont(UiUtils.loadFont("/fonts/Oswald-VariableFont_wght.ttf", 18f));
+		lbPlayer.setForeground(new Color(127, 255, 212));
+		lbPlayer.setBounds(250, 86, 500, 28);
+		add(lbPlayer);
+
+		String[] headers = {"GAME", "1ST", "2ND", "3RD"};
+		int[] headerX = {70, 340, 550, 760};
+		for (int i = 0; i < headers.length; i++) {
+			JLabel lbHeader = new JLabel(headers[i], JLabel.CENTER);
+			lbHeader.setFont(gameFont.deriveFont(Font.BOLD, 15f));
+			lbHeader.setForeground(COL_HEADER);
+			lbHeader.setBounds(headerX[i], 124, i == 0 ? 240 : 200, 26);
+			add(lbHeader);
 		}
 
-		JButton btBack = new JButton("Back");
-		btBack.setFont(UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 16f));
-		btBack.setForeground(Color.BLACK);
-		btBack.setBackground(new Color(240, 248, 255));
-		btBack.setBounds(430, 600, 140, 50);
-		btBack.addActionListener(e -> main.show(MainPanel.MENU));
-		add(btBack);
-	}
+		GameCatalog[] games = GameCatalog.values();
+		int y = 158;
+		int rowHeight = 74;
+		for (int i = 0; i < games.length; i++) {
+			JLabel lbGame = new JLabel();
+			lbGame.setFont(gameFont);
+			lbGame.setForeground(COL_GAME);
+			lbGame.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+			lbGame.setBounds(70, y, 250, rowHeight);
+			add(lbGame);
+			gameLabels[i] = lbGame;
 
-	private void addEvents() {
-		// sự kiện duy nhất (nút Back) đã gắn trực tiếp ở addComps
+			for (int p = 0; p < 3; p++) {
+				JLabel cell = new JLabel("", JLabel.CENTER);
+				cell.setFont(cellFont);
+				cell.setForeground(p == 0 ? COL_GOLD : p == 1 ? COL_SILVER : COL_BRONZE);
+				cell.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+				cell.setBounds(340 + p * 210, y, 200, rowHeight);
+				add(cell);
+				podium[i][p] = cell;
+			}
+			y += rowHeight;
+		}
+
+		JButton btHome = new JButton("BACK");
+		btHome.setFont(UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 15f));
+		btHome.setForeground(Color.BLACK);
+		btHome.setBackground(new Color(240, 248, 255));
+		btHome.setBounds(430, 622, 140, 48);
+		btHome.addActionListener(e -> main.show(MainPanel.HOME));
+		add(btHome);
 	}
 
 	@Override
 	public void onEnter() {
 		ScoreService service = ScoreService.get();
 		GameCatalog[] games = GameCatalog.values();
+
+		lbPlayer.setText("Player: " + AppSession.currentUser());
+
 		for (int i = 0; i < games.length; i++) {
-			rows[i].setText(renderRow(service, games[i]));
+			GameCatalog game = games[i];
+			List<ScoreEntry> top = service.top(game, 3);
+			int mine = service.bestForCurrentUser(game);
+
+			String mineHtml = mine > 0
+					? "<small><font color='#7fffd4'>you: " + mine + "</font></small>"
+					: "<small><font color='" + Integer.toHexString(COL_EMPTY.getRGB() & 0xFFFFFF)
+							+ "'>not played yet</font></small>";
+			gameLabels[i].setText("<html><div style='text-align:left'><b>"
+					+ game.displayName() + "</b><br>" + mineHtml + "</div></html>");
+
+			for (int p = 0; p < 3; p++) {
+				if (p < top.size()) {
+					ScoreEntry entry = top.get(p);
+					podium[i][p].setText("<html><b>" + escape(entry.username())
+							+ "</b><br><span style='font-size:11px'>" + entry.score()
+							+ " pts</span></html>");
+				} else {
+					podium[i][p].setForeground(COL_EMPTY);
+					podium[i][p].setText("<html>—</html>");
+				}
+			}
 		}
 	}
 
-	private String renderRow(ScoreService service, GameCatalog game) {
-		List<ScoreEntry> top = service.top(game, 3);
-		int mine = service.bestForCurrentUser(game);
-		StringBuilder html = new StringBuilder("<html><b>");
-		html.append(game.displayName()).append("</b> &nbsp; ");
-		if (top.isEmpty()) {
-			html.append("<font color='gray'>chua co du lieu</font>");
-		} else {
-			for (int i = 0; i < top.size(); i++) {
-				ScoreEntry entry = top.get(i);
-				html.append(i + 1).append(". ").append(entry.username()).append(": ").append(entry.score())
-						.append(" &nbsp; ");
-			}
-		}
-		if (mine > 0) {
-			html.append("<br><font color='#7fffd4' size='" + (int) (smallFont.getSize()) + "'>ban: ")
-					.append(mine).append("</font>");
-		}
-		html.append("</html>");
-		return html.toString();
+	private static String escape(String raw) {
+		return raw.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
 	}
 }

@@ -118,3 +118,29 @@
   enables profile `postgres` (`DB_URL`/`DB_USER`/`DB_PASSWORD` via env).
 - **Rationale:** fast tests without infrastructure; schema written in
   PostgreSQL dialect so switching environments is just a profile flip.
+
+## D16 — Name-first entry flow + Home hub + generic LetterPanel
+- **Context:** the old flow opened straight into a splash screen, then the
+  menu/login, with guest letters crammed into NormalPanel and letter content
+  hardcoded as plain HTML in three nearly identical Special*Panel classes.
+- **Decision:**
+  - App boots into the **name gate** (MenuPanel) instead of a splash screen;
+    START and StartPanel are deleted.
+  - After the gate, guests see a **dedicated LetterPanel** with their guest
+    letter and a Continue button; special users walk through three
+    LetterPanel screens (SPECIAL_1→2→3) then land on HOME.
+  - **HomePanel** is the hub after login: PLAY / HIGH SCORES / THANK-YOU
+    LETTER. All screens that previously pointed back to START or MENU now
+    return to HOME.
+  - `LetterPanel` replaces `SpecialPanel`, `Special2Panel`, `Special3Panel`
+    and the guest-letter logic in NormalPanel. Content comes from a
+    `Supplier<String>` evaluated on `onEnter()` so `{name}` always reflects
+    the current `AppSession` user.
+  - `ScoreHubPanel` is rebuilt: Oswald grid (GAME / 1ST / 2ND / 3RD columns),
+    per-game personal-best annotation, font sizes that are actually readable.
+  - `Config.THANKS_LETTER` / `LETTER_THANKS` added for the thank-you letter
+    reachable from HOME.
+- **Rationale:** ~250 lines of duplicated panel code deleted; the user is no
+  longer thrown into a game list before seeing their name; HomePanel provides
+  a clear, single post-login anchor; LetterPanel is reusable and content is
+  always rendered against the correct session user.

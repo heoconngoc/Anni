@@ -20,4 +20,8 @@ public final class AppSession {
 	public static String currentUser() {
 		return currentUser;
 	}
+
+	public static void logout() {
+		currentUser = "khách";
+	}
 }

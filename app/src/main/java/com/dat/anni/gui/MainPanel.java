@@ -32,13 +32,15 @@ import com.dat.anni.game.spaceinvaders.Space_StartPanel;
 import com.dat.anni.game.whacamole.WhacAMolePanel;
 import com.dat.anni.game.whacamole.Whac_RulePanel;
 import com.dat.anni.game.whacamole.Whac_StartPanel;
+import com.dat.anni.config.Config;
+import com.dat.anni.data.AppSession;
 import com.dat.anni.util.SoundManager;
 
 public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	public static final String START = "start";
 	public static final String MENU = "menu";
+	public static final String HOME = "home";
 	public static final String NORMAL = "normal";
 	public static final String SPECIAL_1 = "special1";
 	public static final String SPECIAL_2 = "special2";
@@ -71,6 +73,8 @@ public class MainPanel extends JPanel {
 	public static final String MINES_RULES = "minesRules";
 	public static final String MINES_GAME = "minesGame";
 	public static final String SCORES_HUB = "scoresHub";
+	public static final String LETTER_GUEST = "letterGuest";
+	public static final String LETTER_THANKS = "letterThanks";
 
 	private final Map<String, Component> cards = new HashMap<>();
 	private NormalPanel normalPanel;
@@ -99,12 +103,24 @@ public class MainPanel extends JPanel {
 	}
 
 	private void addComps() {
-		register(START, new StartPanel());
 		register(MENU, new MenuPanel());
+		register(HOME, new HomePanel());
 		register(NORMAL, new NormalPanel());
-		register(SPECIAL_1, new SpecialPanel());
-		register(SPECIAL_2, new Special2Panel());
-		register(SPECIAL_3, new Special3Panel());
+		register(LETTER_GUEST, new LetterPanel(
+				() -> Config.formatLetter(Config.GUEST_LETTER, AppSession.currentUser()),
+				"CONTINUE", HOME));
+		register(LETTER_THANKS, new LetterPanel(
+				() -> Config.formatLetter(Config.THANKS_LETTER, AppSession.currentUser()),
+				"BACK", HOME));
+		register(SPECIAL_1, new LetterPanel(
+				() -> Config.formatLetter(Config.SPECIAL_LETTER_1, AppSession.currentUser()),
+				"NEXT", SPECIAL_2));
+		register(SPECIAL_2, new LetterPanel(
+				() -> Config.formatLetter(Config.SPECIAL_LETTER_2, AppSession.currentUser()),
+				"NEXT", SPECIAL_3));
+		register(SPECIAL_3, new LetterPanel(
+				() -> Config.formatLetter(Config.SPECIAL_LETTER_3, AppSession.currentUser()),
+				"CONTINUE", HOME));
 		register(GAMES_PAGE_1, new GamePanel());
 		register(SCORES_HUB, new ScoreHubPanel());
 		register(GAMES_PAGE_2, new Game2Panel());
@@ -157,7 +173,4 @@ public class MainPanel extends JPanel {
 		}
 	}
 
-	public void setLbLetter(String string) {
-		normalPanel.setLbLetter(string);
-	}
 }

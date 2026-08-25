@@ -23,6 +23,9 @@ public final class Config {
 	public static final String SPECIAL_LETTER_2 = get("LETTER_SPECIAL_2", "");
 	public static final String SPECIAL_LETTER_3 = get("LETTER_SPECIAL_3", "");
 
+	public static final String THANKS_LETTER =
+			get("LETTER_THANKS", "Thank you for playing, {name}!\nSee you again soon.");
+
 	/** Đường dẫn file SQLite (tương đối theo thư mục chạy app hoặc tuyệt đối). */
 	public static final String DB_PATH = get("DB_PATH", "anni.db");
 

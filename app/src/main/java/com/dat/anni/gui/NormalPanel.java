@@ -18,9 +18,9 @@ import com.dat.anni.util.UiUtils;
 
 public class NormalPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
-	private Font buttonFont, normalFont;
-	private JLabel lbTitle, lbLetter;
-	private JButton btBack, btBackToMenu, btScores;
+	private Font buttonFont;
+	private JLabel lbTitle;
+	private JButton btHome, btScores;
 
 	public NormalPanel() {
 		super("/gifs/mine.gif");
@@ -31,8 +31,6 @@ public class NormalPanel extends BasePanel {
 
 	private void initPanel() {
 		buttonFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 20f);
-
-		normalFont = UiUtils.loadFont("/fonts/Oswald-VariableFont_wght.ttf", 24f);
 	}
 
 	private void addComps() {
@@ -42,40 +40,27 @@ public class NormalPanel extends BasePanel {
 		lbTitle.setBounds(360, 100, 280, 80);
 		add(lbTitle);
 
-		lbLetter = new JLabel();
-		lbLetter.setFont(normalFont);
-		lbLetter.setForeground(Color.WHITE);
-		lbLetter.setBounds(200, 185, 600, 300);
-		add(lbLetter);
-
-		btBack = new JButton("Back");
-		btBack.setFont(buttonFont);
-		btBack.setForeground(Color.BLACK);
-		btBack.setBackground(new Color(240, 248, 255));
-		btBack.setBounds(370, 520, 120, 50);
-		add(btBack);
-
-		btBackToMenu = new JButton("Menu");
-		btBackToMenu.setFont(buttonFont);
-		btBackToMenu.setForeground(Color.BLACK);
-		btBackToMenu.setBackground(new Color(240, 248, 255));
-		btBackToMenu.setBounds(510, 520, 120, 50);
-		add(btBackToMenu);
+		btHome = new JButton("Home");
+		btHome.setFont(buttonFont);
+		btHome.setForeground(Color.BLACK);
+		btHome.setBackground(new Color(240, 248, 255));
+		btHome.setBounds(400, 520, 140, 50);
+		add(btHome);
 
 		btScores = new JButton("Scores");
 		btScores.setFont(buttonFont);
 		btScores.setForeground(Color.BLACK);
 		btScores.setBackground(new Color(240, 248, 255));
-		btScores.setBounds(650, 520, 120, 50);
+		btScores.setBounds(560, 520, 140, 50);
 		add(btScores);
 	}
 
 	private void addEvents() {
-		btBack.addActionListener(new ActionListener() {
+		btHome.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.show(MainPanel.MENU);
+				main.show(MainPanel.HOME);
 			}
 		});
 
@@ -83,14 +68,6 @@ public class NormalPanel extends BasePanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				main.show(MainPanel.SCORES_HUB);
-			}
-		});
-
-		btBackToMenu.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				main.show(MainPanel.START);
 			}
 		});
 	}
@@ -118,8 +95,4 @@ super.paintComponent(g);
 		g2d.dispose();
 	}
 
-
-	public void setLbLetter(String string) {
-		lbLetter.setText(string);
-	}
 }
