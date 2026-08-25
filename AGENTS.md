@@ -25,16 +25,23 @@ làm quà cá nhân, đang được nâng cấp dần thành ứng dụng client
 ## Lệnh thường dùng
 
 ```bash
-mvn clean package                    # build + test toàn bộ 3 module
+mvn clean install                    # build + test + cài 3 module vào ~/.m2
 mvn clean verify                     # build + test (bước gate của DoD)
 java -jar app/target/anni-arcade.jar     # chạy app desktop từ jar
 java -jar server/target/anni-server.jar  # chạy backend (port 8080)
-mvn compile exec:java -pl app        # chạy app trực tiếp khi dev
+mvn compile exec:java -pl app        # chạy app trực tiếp khi dev (CẦN đã install)
 ANNI_GUI_PROBE=1 mvn test            # bật thêm test GUI thật (focus D13)
 ```
 
 Multi-module Maven: `common` (hợp đồng dữ liệu) → `app` (desktop Swing) +
 `server` (Spring Boot, Phase 7).
+
+> **Lỗi "The parameters 'mainClass' ... are missing"?** Bạn đang chạy
+> `exec:java` ngay trên parent pom — thêm `-pl app`.
+>
+> **Lỗi "Could not resolve dependencies ... anni-common not found"?** Chưa cài
+> common vào ~/.m2 — chạy `mvn clean install` một lần (và mỗi khi sửa module
+> `common`).
 
 Yêu cầu: JDK 17+, Maven 3.8+.
 
