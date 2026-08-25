@@ -9,7 +9,7 @@
 |---|---|---|---|
 | 0 | Nền tảng tài liệu (`AGENTS.md`, `docs/`) | ✅ | `docs:` |
 | 1 | Chuẩn hóa Maven (package, resources, .gitignore) | ✅ | `refactor:` |
-| 2 | `.env` bảo mật credentials (dotenv-java + Config.java) | ⬜ | |
+| 2 | `.env` bảo mật credentials (dotenv-java + Config.java) | ✅ | `feat:` |
 | 3 | Điều hướng CardLayout chuẩn (named cards, dừng Timer) | ⬜ | |
 | 4 | Refactor trùng lặp (UiUtils.loadFont, BasePanel) | ⬜ | |
 | 5 | Tầng dữ liệu SQLite (repository interfaces + DAO + JUnit 5/Mockito) | ⬜ | |
@@ -34,11 +34,22 @@
 - Kiểm chứng: `mvn clean verify` exit 0; smoke test `java -jar target/anni-arcade.jar`
   chạy 6s không crash, log không có exception.
 
+### Phase 2 — .env bảo mật credentials ✅
+- Class `com.dat.anni.config.Config`: load `Dotenv` một lần với `ignoreIfMissing()`;
+  parse `APP_VALID_USERS` (trim/lowercase/bỏ đoạn rỗng) và `APP_PASSWORD`.
+- **Không fallback secret trong source**: thiếu `.env` → app vẫn chạy ở chế độ khách,
+  chỉ mất login đặc biệt (`VALID_USERS` rỗng, password rỗng).
+- `.env.example` được commit làm mẫu; `.env` thật đã gitignore (đã kiểm chứng bằng
+  `git check-ignore`).
+- Thêm JUnit 5 vào pom; `ConfigTest` 6 test cho `parseUsers` — all pass.
+- Smoke test 2 kịch bản: chạy jar từ thư mục có `.env` và không có `.env` — đều sạch.
+
 ## 🔄 Đang làm
 (không có — mọi phase đã đóng)
 
 ## ⬜ Việc tiếp theo
-- **Phase 2**: tạo `.env.example` + class `Config` (dotenv-java, `ignoreIfMissing()` + fallback), bỏ hardcode user/mật khẩu trong `MenuPanel.java`.
+- **Phase 3**: điều hướng CardLayout chuẩn — panel đăng ký theo tên hằng + `show(name)`,
+  bỏ hack `setVisible`, dừng Timer game khi rời panel.
 
 ## Vướng mắc / Lưu ý kỹ thuật
 - Navigation hiện dùng hack `setVisible(true/false)` với CardLayout — hoạt động nhưng fragile; sẽ sửa ở Phase 3, đừng nhân rộng pattern này khi viết panel mới.

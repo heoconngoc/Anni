@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import com.dat.anni.config.Config;
 
 public class MenuPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -207,8 +208,7 @@ public class MenuPanel extends JPanel {
 
 				user = user.toLowerCase();
 
-				Set<String> VALID_USERS = Set.of("chau", "hbc", "châu", "be", "bé");
-				if (VALID_USERS.contains(user)) {
+				if (Config.VALID_USERS.contains(user)) {
 					lbWarning.setVisible(false);
 					showPasswordFields(true);
 					loginTimes += 1;
@@ -222,7 +222,7 @@ public class MenuPanel extends JPanel {
 					}
 
 					if (!"".equals(pass)) {
-						if ("2501".equals(pass)) {
+						if (Config.APP_PASSWORD.equals(pass)) {
 							loginTimes = 0;
 							wrongTimes = 0;
 							resetFields();

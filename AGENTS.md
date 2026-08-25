@@ -39,8 +39,10 @@ Yêu cầu: JDK 17+, Maven 3.8+.
 src/main/java/com/dat/anni/
 ├── main/        Main.java — entry point
 ├── gui/         Khung giao diện chung (GUI, MainPanel, các panel điều hướng)
+├── config/      Config.java — đọc .env (credentials, cấu hình app)
 ├── game/<ten-game>/   Mỗi game: *_StartPanel, *_RulePanel, *Panel + class logic
-└── (tương lai) config/, data/, net/
+└── (tương lai) data/, net/
 src/main/resources/    fonts/, imgs/, gifs/, icons/
+src/test/java/         Unit test (JUnit 5)
 server/                (Phase 7) Spring Boot backend
 ```

@@ -8,10 +8,14 @@
 - **Quyết định:** chuẩn hóa về Maven duy nhất, bỏ file Eclipse.
 - **Lý do:** VS Code/IntelliJ đều làm việc trực tiếp với `pom.xml`; một nguồn sự thật duy nhất.
 
-## D02 — Cấu hình nhạy cảm dùng dotenv-java (Phase 2)
+## D02 — Cấu hình nhạy cảm dùng dotenv-java (Phase 2) ✅
 - **Bối cảnh:** user/mật khẩu login hardcode trong `MenuPanel`; dependency dotenv-java đã có sẵn trong pom nhưng chưa dùng.
 - **Quyết định:** tạo `.env` (+ `.env.example` commit) và class `Config` load 1 lần với `ignoreIfMissing()` + giá trị fallback.
 - **Lý do:** tận dụng dependency hiện có; app quà cá nhân vẫn chạy được ngay cả khi thiếu `.env`.
+- **Bổ sung khi thực hiện (2026-08-25):** fallback cho secret là **giá trị rỗng**, không
+  bake sẵn credentials vào source — thiếu `.env` thì app vẫn mở/chơi chế độ khách nhưng
+  không login được. Kèm theo: thêm JUnit 5 từ Phase 2 (sớm hơn kế hoạch Phase 5) để test
+  logic parse của `Config`.
 
 ## D03 — Tầng dữ liệu: SQLite trước, server sau, chung interface repository (Option C)
 - **Bối cảnh:** cần lưu high scores, user profile, lịch sử chơi; cân nhắc embedded DB vs backend thật.
