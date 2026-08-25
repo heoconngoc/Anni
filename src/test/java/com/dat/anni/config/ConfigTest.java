@@ -40,4 +40,25 @@ class ConfigTest {
 		assertTrue(Config.parseUsers("   ").isEmpty());
 		assertTrue(Config.parseUsers(null).isEmpty());
 	}
+
+	@Test
+	void shouldReplaceNamePlaceholder() {
+		assertEquals("Xin chào An!", Config.formatLetter("Xin chào {name}!", "An"));
+	}
+
+	@Test
+	void shouldConvertLineBreaksToBr() {
+		assertEquals("a<br>b<br>c", Config.formatLetter("a\\nb\\nc", "x"));
+	}
+
+	@Test
+	void shouldHandleNullNameAndTemplate() {
+		assertEquals("Hi !", Config.formatLetter("Hi {name}!", null));
+		assertEquals("", Config.formatLetter(null, "An"));
+	}
+
+	@Test
+	void guestLetterFallbackShouldContainPlaceholder() {
+		assertTrue(Config.GUEST_LETTER.contains("{name}"));
+	}
 }

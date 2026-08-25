@@ -16,6 +16,10 @@
   bake sẵn credentials vào source — thiếu `.env` thì app vẫn mở/chơi chế độ khách nhưng
   không login được. Kèm theo: thêm JUnit 5 từ Phase 2 (sớm hơn kế hoạch Phase 5) để test
   logic parse của `Config`.
+- **Bổ sung 2 (2026-08-25):** toàn bộ nội dung thư cá nhân (guest + Special 1/2/3) cũng đưa
+  vào `.env` (`LETTER_GUEST`, `LETTER_SPECIAL_1..3`) vì là dữ liệu riêng tư của tác giả.
+  Placeholder `{name}` + `\n` xuống dòng, xử lý trong `Config.formatLetter()`; khung HTML
+  (style) vẫn nằm ở code — tách nội dung khỏi trình bày.
 
 ## D03 — Tầng dữ liệu: SQLite trước, server sau, chung interface repository (Option C)
 - **Bối cảnh:** cần lưu high scores, user profile, lịch sử chơi; cân nhắc embedded DB vs backend thật.

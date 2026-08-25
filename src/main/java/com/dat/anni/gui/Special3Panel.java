@@ -18,6 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.dat.anni.config.Config;
+
 public class Special3Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
@@ -61,11 +63,7 @@ public class Special3Panel extends JPanel {
 
 	private void addComps() {
 		lbLetter = new JLabel("<html>" + "<div style='line-height: 1.5;'>"
-				+ "Nhớ là dat luôn bên cạnh bé. luôn đứng về phía bé. Nếu có điều gì bé tự hỏi có nên kể dat nghe không, đừng nghĩ, kể dat luôn nhé! Đừng lo bất cứ điều gì. Vẫn là những lời nhắc nhở cũ thôi, nhưng mà bé đừng có ngó lơ và để đó nhớ. Nhớ là ăn no, ngủ đủ, và cố gắng học tập để theo đuổi ước mơ nhé. dat tin, dù mất bao lâu thời gian, bé cũng sẽ đạt được ước mơ đó! <br>"
-				+ "<br>"
-				+ "Trò chơi này dat làm riêng cho bé. Đây là lần đầu tiên dat làm một dự án to, và chi tiết đến vậy. Mặc dù trông nó đơn giản vậy thui, nhưng mà với một con gà như dat thì cũng là một câu chuyện lớn đó. Lâu lâu hãy mở nó lên chơi nhé, khi chán, khi không biết làm gì, khi buồn, khi nhớ dat. Khi nào có điều muốn nói mà không dám nói thì ngồi chơi, chơi chán rồi thì gọi kể dat nghe nhé!<br>"
-				+ "<br>" + "dat yêu bé" + "<br>" + "<br>" + "Amherst, 25/01/2024." + "<br>" + "<br>" + "dat" + "</div>"
-				+ "</html>");
+				+ Config.formatLetter(Config.SPECIAL_LETTER_3, "") + "</div>" + "</html>");
 		lbLetter.setFont(normalFont);
 		lbLetter.setForeground(Color.WHITE);
 		lbLetter.setBounds(120, 60, 750, 500);

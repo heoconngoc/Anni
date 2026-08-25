@@ -43,6 +43,10 @@
   `git check-ignore`).
 - Thêm JUnit 5 vào pom; `ConfigTest` 6 test cho `parseUsers` — all pass.
 - Smoke test 2 kịch bản: chạy jar từ thư mục có `.env` và không có `.env` — đều sạch.
+- **Bổ sung (cùng phase):** chuyển toàn bộ **4 bức thư cá nhân** từ hardcode sang `.env` —
+  `LETTER_GUEST` (thư khách, placeholder `{name}`), `LETTER_SPECIAL_1/2/3` (bộ thư 3 phần sau
+  login). Quy ước `\n` = xuống dòng; helper `Config.formatLetter()` có test. Nội dung gốc được
+  trích xuất tự động từ source nên giữ nguyên văn.
 
 ## 🔄 Đang làm
 (không có — mọi phase đã đóng)

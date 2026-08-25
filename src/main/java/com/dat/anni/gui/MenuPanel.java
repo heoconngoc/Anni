@@ -244,12 +244,8 @@ public class MenuPanel extends JPanel {
 					}
 
 				} else {
-					main.setLbLetter("<html>" + "<div style='line-height: 1.5;'>" + "Xin chào " + tfUser.getText() + ","
-							+ "<br>" + "Tôi là Phạm Quốc Đạt.<br>"
-							+ "Tôi đã khởi động dự án J4U Aracade từ ngày 15/01/2025.<br>"
-							+ "Dự án này đã được tôi phát hành vào ngày 25/01/2025.<br>"
-							+ "Nếu bạn có đóng góp hay sửa đổi hãy liên hệ tôi nhé!<br>" + "Hy vọng " + tfUser.getText()
-							+ " sẽ có thời gian tuyệt vời bên dự án trò chơi Just For You Arcade của tôi!" + "</div>"
+					String letterBody = Config.formatLetter(Config.GUEST_LETTER, tfUser.getText());
+					main.setLbLetter("<html>" + "<div style='line-height: 1.5;'>" + letterBody + "</div>"
 							+ "</html>");
 					main.showNormalPanel();
 					resetFields();

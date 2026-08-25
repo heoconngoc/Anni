@@ -18,6 +18,11 @@ public final class Config {
 	public static final Set<String> VALID_USERS = parseUsers(get("APP_VALID_USERS", ""));
 	public static final String APP_PASSWORD = get("APP_PASSWORD", "");
 
+	public static final String GUEST_LETTER = get("LETTER_GUEST", "Chào mừng {name} đến với Just For You Arcade!");
+	public static final String SPECIAL_LETTER_1 = get("LETTER_SPECIAL_1", "");
+	public static final String SPECIAL_LETTER_2 = get("LETTER_SPECIAL_2", "");
+	public static final String SPECIAL_LETTER_3 = get("LETTER_SPECIAL_3", "");
+
 	private Config() {
 	}
 
@@ -30,6 +35,16 @@ public final class Config {
 				.filter(s -> !s.isEmpty())
 				.map(s -> s.toLowerCase(Locale.ROOT))
 				.collect(Collectors.toUnmodifiableSet());
+	}
+
+	/**
+	 * Chuyển template thư thành HTML body: "\n" → xuống dòng, "{name}" → tên người dùng.
+	 */
+	public static String formatLetter(String template, String name) {
+		if (template == null) {
+			return "";
+		}
+		return template.replace("\\n", "<br>").replace("{name}", name == null ? "" : name);
 	}
 
 	private static String get(String key, String fallback) {

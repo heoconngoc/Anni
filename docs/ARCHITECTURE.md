@@ -23,7 +23,7 @@
 |---|---|
 | `com.dat.anni.main` | Entry point |
 | `com.dat.anni.gui` | Khung app, điều hướng, login |
-| `com.dat.anni.config` | `Config` — đọc `.env` (credentials login, cấu hình), không fallback secret |
+| `com.dat.anni.config` | `Config` — đọc `.env` (credentials login, 4 bức thư cá nhân), không fallback secret |
 | `com.dat.anni.game.<tên-game>` | 8 game: pacman, snake, minesweeper, whacamole, spaceinvaders, chormedinosaur, flappybird, matchcard |
 
 ### Mô hình một game
