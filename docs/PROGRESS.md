@@ -89,6 +89,21 @@
 - Chưa ghi điểm: MatchCards (số lượt) & Minesweeper (thời gian — "càng ít càng tốt")
   cần quy ước riêng, làm kèm ScoreHub ở Phase 6.
 
+### Hotfix 2 — mất nền đen mờ ở trang Rule ✅
+- Script refactor Phase 4 xóa nhầm cả khối vẽ overlay (RoundRectangle đen mờ)
+  trong paintComponent của 8 trang Rule vì chúng không nằm trong whitelist
+  OVERLAY_PANELS → chữ trắng trên nền game rất khó đọc.
+- Đã khôi phục overlay nguyên văn từ bản gốc cho cả 8 file (Dino, Flappy,
+  Match, Mines, Pac, Snake, Space, Whac).
+
+### Test hồi quy bàn phím (D13) ✅
+- `WrapperFocusConventionTest` (luôn chạy): ràng buộc 5 wrapper game dùng phím
+  phải gọi requestFocusInWindow() trong onEnter().
+- `GuiFocusRegressionTest` (bật bằng ANNI_GUI_PROBE=1): boot GUI thật, vào từng
+  game card xác nhận focus trúng component game + dino nhảy khi nhận space.
+  Trên JVM fork bởi Maven, macOS có thể từ chối cấp key-window → test tự skip
+  qua Assumptions thay vì fail giả (đã ghi rõ trong javadoc).
+
 ### Hotfix sau Phase 6 — mất bàn phím trong game ✅
 - **Triệu chứng:** vào game, nhấn space/mũi tên không phản ứng (dino không nhảy,
   phi thuyền không bắn) ở TẤT CẢ các game dùng phím.
