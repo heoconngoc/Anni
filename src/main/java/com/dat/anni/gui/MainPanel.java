@@ -32,6 +32,7 @@ import com.dat.anni.game.spaceinvaders.Space_StartPanel;
 import com.dat.anni.game.whacamole.WhacAMolePanel;
 import com.dat.anni.game.whacamole.Whac_RulePanel;
 import com.dat.anni.game.whacamole.Whac_StartPanel;
+import com.dat.anni.util.SoundManager;
 
 public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -69,6 +70,7 @@ public class MainPanel extends JPanel {
 	public static final String MINES_START = "minesStart";
 	public static final String MINES_RULES = "minesRules";
 	public static final String MINES_GAME = "minesGame";
+	public static final String SCORES_HUB = "scoresHub";
 
 	private final Map<String, Component> cards = new HashMap<>();
 	private NormalPanel normalPanel;
@@ -104,6 +106,7 @@ public class MainPanel extends JPanel {
 		register(SPECIAL_2, new Special2Panel());
 		register(SPECIAL_3, new Special3Panel());
 		register(GAMES_PAGE_1, new GamePanel());
+		register(SCORES_HUB, new ScoreHubPanel());
 		register(GAMES_PAGE_2, new Game2Panel());
 
 		register(PAC_START, new Pac_StartPanel());
@@ -148,6 +151,7 @@ public class MainPanel extends JPanel {
 		}
 		((CardLayout) getLayout()).show(this, name);
 		currentName = name;
+		SoundManager.play(SoundManager.Sfx.CLICK);
 		if (cards.get(name) instanceof Navigable entering) {
 			entering.onEnter();
 		}

@@ -2,6 +2,7 @@ package com.dat.anni.game.flappybird;
 
 import com.dat.anni.data.GameCatalog;
 import com.dat.anni.data.ScoreService;
+import com.dat.anni.util.SoundManager;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -142,6 +143,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 		}
 		scoreRecorded = true;
 		ScoreService.get().record(GameCatalog.FLAPPY_BIRD, (int) score);
+		SoundManager.play(SoundManager.Sfx.GAME_OVER);
 	}
 
 	public void startTimers() {

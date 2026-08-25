@@ -66,3 +66,15 @@
 - Game KHÔNG được start Timer trong constructor (chỉ start ở wrapper `onEnter`) —
   tránh chạy ngầm + ghi điểm rác (bug thật đã bắt được trong Phase 5).
 - File DB mặc định `anni.db` (gitignored), override bằng `DB_PATH` trong .env.
+
+## D11 — Âm thanh SFX: resource-first, tự tổng hợp làm fallback ✅ (Phase 6)
+- **Quyết định:** `SoundManager` nạp `/sfx/<ten>.wav` nếu có; thiếu thì tự sinh sóng sine
+  (click / game-over thang / win arpeggio). Không bắt buộc asset, ai muốn thay âm thật
+  chỉ việc bỏ file wav vào resources/sfx với đúng tên.
+- SFX chạy thread riêng, mọi lỗi âm thanh bị nuốt (không làm chết game).
+- Không viết unit test cho âm thanh (theo D05).
+
+## D12 — Icon app dùng lại icon game có sẵn ✅ (Phase 6)
+- **Quyết định:** icon cửa sổ = `/icons/PacMan Icon.jpg`. Muốn đổi → thay đường dẫn trong
+  GUI hoặc bỏ file riêng rồi trỏ tới. macOS dock icon không đổi bằng setIconImage
+  (cần jpackage/bundle riêng) — chấp nhận, không làm trong phase này.

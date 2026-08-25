@@ -13,7 +13,7 @@
 | 3 | Điều hướng CardLayout chuẩn (named cards, dừng Timer) | ✅ | `refactor:` |
 | 4 | Refactor trùng lặp (UiUtils.loadFont, BasePanel) | ✅ | `refactor:` |
 | 5 | Tầng dữ liệu SQLite (repository interfaces + DAO + JUnit 5/Mockito) | ✅ | `feat:` |
-| 6 | Trải nghiệm (SoundManager SFX, ScoreHubPanel, icon app) | ⬜ | |
+| 6 | Trải nghiệm (SoundManager SFX, ScoreHubPanel, icon app) | ✅ | `feat:` |
 | 7 | Spring Boot backend (multi-module client/server, PostgreSQL/H2, Flyway) | ⬜ | |
 | 8 | Client ↔ Server (HTTP repository + fallback SQLite offline) | ⬜ | |
 | 9 | CI GitHub Actions + Docker (Dockerfile, docker-compose) | ⬜ | |
@@ -89,11 +89,23 @@
 - Chưa ghi điểm: MatchCards (số lượt) & Minesweeper (thời gian — "càng ít càng tốt")
   cần quy ước riêng, làm kèm ScoreHub ở Phase 6.
 
+### Phase 6 — Trải nghiệm ✅
+- `SoundManager` (`util/`): SFX CLICK / GAME_OVER / WIN. Ưu tiên file thật trong
+  `resources/sfx/<ten>.wav`; **thiếu file thì tự tổng hợp âm** (sine + envelope) nên
+  không cần asset cũng có tiếng. Chạy trên thread riêng, lỗi âm thanh bị nuốt gọn.
+- Dây SFX: click khi chuyển màn hình (MainPanel.show), GAME_OVER tại 6 điểm ghi điểm,
+  WIN khi thắng Minesweeper.
+- `ScoreHubPanel` (card `SCORES_HUB`): top 3 mỗi game + điểm của người hiện tại,
+  refresh trong `onEnter()`. Lối vào: nút **Scores** ở NormalPanel và Game2Panel.
+- Icon app: window icon dùng `/icons/PacMan Icon.jpg` (đổi file khác thoải mái).
+- Verify: 14/14 test xanh; smoke boot sạch; âm thanh/nút mới cần bấm thử tay.
+
 ## 🔄 Đang làm
 (không có)
 
 ## ⬜ Việc tiếp theo
-- **Phase 6**: trải nghiệm — SoundManager SFX, ScoreHubPanel (bảng xếp hạng), icon app.
+- **Phase 7**: Spring Boot backend multi-module (client/server, PostgreSQL/H2, Flyway)
+  — phase lớn nhất, nên tách nhiều commit nhỏ.
 
 ## Vướng mắc / Lưu ý kỹ thuật
 - Navigation hiện dùng hack `setVisible(true/false)` với CardLayout — hoạt động nhưng fragile; sẽ sửa ở Phase 3, đừng nhân rộng pattern này khi viết panel mới.

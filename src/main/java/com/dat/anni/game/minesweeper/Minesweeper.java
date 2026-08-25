@@ -1,5 +1,7 @@
 package com.dat.anni.game.minesweeper;
 
+import com.dat.anni.util.SoundManager;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -210,6 +212,7 @@ public class Minesweeper extends JPanel {
 		}
 
 		if (isWin()) {
+			SoundManager.play(SoundManager.Sfx.WIN);
 			textLabel.setText("You Win!");
 			gameOver = true;
 			playAgainButton.setVisible(true); // Hiển thị nút Play Again khi thắng

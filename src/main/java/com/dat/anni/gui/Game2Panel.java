@@ -19,7 +19,7 @@ import com.dat.anni.util.UiUtils;
 
 public class Game2Panel extends BasePanel {
 	private static final long serialVersionUID = 1L;
-	private JButton btBack;
+	private JButton btBack, btScores;
 	private Font buttonFont, normalFont;
 	private JButton[] gameButtons;
 
@@ -42,6 +42,13 @@ public class Game2Panel extends BasePanel {
 		btBack.setForeground(Color.BLACK);
 		btBack.setBackground(new Color(240, 248, 255));
 		btBack.setBounds(450, 570, 100, 40);
+
+		btScores = new JButton("Scores");
+		btScores.setFont(btBack.getFont());
+		btScores.setForeground(Color.BLACK);
+		btScores.setBackground(new Color(240, 248, 255));
+		btScores.setBounds(570, 570, 100, 40);
+		add(btScores);
 		add(btBack);
 
 		gameButtons = new JButton[4];
@@ -95,6 +102,13 @@ public class Game2Panel extends BasePanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				main.show(MainPanel.GAMES_PAGE_1);
+			}
+		});
+
+		btScores.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				main.show(MainPanel.SCORES_HUB);
 			}
 		});
 

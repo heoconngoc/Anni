@@ -2,6 +2,7 @@ package com.dat.anni.game.chormedinosaur;
 
 import com.dat.anni.data.GameCatalog;
 import com.dat.anni.data.ScoreService;
+import com.dat.anni.util.SoundManager;
 
 import java.awt.Color;
 import java.awt.Dimension;

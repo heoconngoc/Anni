@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
@@ -23,6 +24,7 @@ public class GUI extends JFrame {
 
 	private void initGUI() {
 		setTitle("Just For You Chole");
+		setIconImage(new ImageIcon(getClass().getResource("/icons/PacMan Icon.jpg")).getImage());
 		setSize(WIDTH_FRAME, HEIGHT_FRAME);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

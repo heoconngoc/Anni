@@ -20,7 +20,7 @@ public class NormalPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private Font buttonFont, normalFont;
 	private JLabel lbTitle, lbLetter;
-	private JButton btBack, btBackToMenu;
+	private JButton btBack, btBackToMenu, btScores;
 
 	public NormalPanel() {
 		super("/gifs/mine.gif");
@@ -61,6 +61,13 @@ public class NormalPanel extends BasePanel {
 		btBackToMenu.setBackground(new Color(240, 248, 255));
 		btBackToMenu.setBounds(510, 520, 120, 50);
 		add(btBackToMenu);
+
+		btScores = new JButton("Scores");
+		btScores.setFont(buttonFont);
+		btScores.setForeground(Color.BLACK);
+		btScores.setBackground(new Color(240, 248, 255));
+		btScores.setBounds(650, 520, 120, 50);
+		add(btScores);
 	}
 
 	private void addEvents() {
@@ -69,6 +76,13 @@ public class NormalPanel extends BasePanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				main.show(MainPanel.MENU);
+			}
+		});
+
+		btScores.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				main.show(MainPanel.SCORES_HUB);
 			}
 		});
 
