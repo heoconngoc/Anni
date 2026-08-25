@@ -85,3 +85,17 @@
   auto-transfer focus của Swing (fragile, đã gây bug thật).
 - **Kiểm chứng hồi quy:** probe script boot app thật → điều hướng từng game card →
   xác nhận focus owner là component game trước khi gửi phím tổng hợp.
+
+## D14 — Multi-module Maven: common / app / server
+- **Quyết định:** tách hợp đồng dữ liệu (`com.dat.anni.data`: GameCatalog,
+  ScoreEntry, repo/UserRepository, repo/ScoreRepository) sang module
+  `anni-common`; app desktop và server cùng phụ thuộc common. Giữ nguyên tên
+  package để client không phải sửa import.
+- **Lý do:** Phase 8 chỉ cần thay implementation phía client mà không đụng
+  hợp đồng; tránh copy-paste DTO giữa 2 bên.
+
+## D15 — Server DB: H2 in-memory mặc định, profile `postgres`
+- **Quyết định:** dev/test dùng H2 mem MODE=PostgreSQL + Flyway; production
+  bật profile `postgres` (DB_URL/DB_USER/DB_PASSWORD qua env).
+- **Lý do:** test nhanh không cần hạ tầng; schema SQL viết theo dialect PG
+  để chuyển môi trường chỉ bằng profile.

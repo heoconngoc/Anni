@@ -128,12 +128,26 @@
 - Icon app: window icon dùng `/icons/PacMan Icon.jpg` (đổi file khác thoải mái).
 - Verify: 14/14 test xanh; smoke boot sạch; âm thanh/nút mới cần bấm thử tay.
 
+## ✅ Phase 7 — Spring Boot backend (multi-module) — HOÀN THÀNH
+- **Cấu trúc mới:** parent pom aggregator + 3 module: `common` (GameCatalog,
+  ScoreEntry, repo interfaces), `app` (desktop Swing, phụ thuộc common),
+  `server` (Spring Boot 3.3.4, phụ thuộc common).
+- **Server:** REST API (`/api/scores` POST, `/api/games/{id}/top`,
+  `/api/users/{user}/best/{game}`, `/api/games`), JdbcTemplate repositories
+  implement CÙNG interface với client SQLite; Flyway V1__init.sql
+  (users/scores/indexes); mặc định H2 in-memory MODE=PostgreSQL, profile
+  `postgres` cho PostgreSQL thật.
+- **Verify:** server 5/5 MockMvc test xanh; smoke curl POST/top/best OK;
+  app jar vẫn boot sạch; tổng suite xanh.
+- **Phạm vi phase này:** server đứng độc lập. Client vẫn ghi SQLite local —
+  nối client → HTTP API là Phase 8.
+
 ## 🔄 Đang làm
 (không có)
 
 ## ⬜ Việc tiếp theo
-- **Phase 7**: Spring Boot backend multi-module (client/server, PostgreSQL/H2, Flyway)
-  — phase lớn nhất, nên tách nhiều commit nhỏ.
+- **Phase 8**: đổi client sang HTTP (ScoreService gọi REST API của server,
+  giữ SQLite làm offline fallback nếu muốn)
 
 ## Vướng mắc / Lưu ý kỹ thuật
 - Navigation hiện dùng hack `setVisible(true/false)` với CardLayout — hoạt động nhưng fragile; sẽ sửa ở Phase 3, đừng nhân rộng pattern này khi viết panel mới.

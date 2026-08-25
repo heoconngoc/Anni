@@ -25,11 +25,16 @@ làm quà cá nhân, đang được nâng cấp dần thành ứng dụng client
 ## Lệnh thường dùng
 
 ```bash
-mvn clean package          # build + chạy toàn bộ test
-mvn clean verify           # build + test (bước gate của DoD)
-java -jar target/anni-arcade.jar   # chạy app từ jar
-mvn compile exec:java      # chạy app trực tiếp khi dev
+mvn clean package                    # build + test toàn bộ 3 module
+mvn clean verify                     # build + test (bước gate của DoD)
+java -jar app/target/anni-arcade.jar     # chạy app desktop từ jar
+java -jar server/target/anni-server.jar  # chạy backend (port 8080)
+mvn compile exec:java -pl app        # chạy app trực tiếp khi dev
+ANNI_GUI_PROBE=1 mvn test            # bật thêm test GUI thật (focus D13)
 ```
+
+Multi-module Maven: `common` (hợp đồng dữ liệu) → `app` (desktop Swing) +
+`server` (Spring Boot, Phase 7).
 
 Yêu cầu: JDK 17+, Maven 3.8+.
 
@@ -40,14 +45,16 @@ Yêu cầu: JDK 17+, Maven 3.8+.
 ## Cấu trúc thư mục
 
 ```
-src/main/java/com/dat/anni/
-├── main/        Main.java — entry point
-├── gui/         Khung giao diện chung (GUI, MainPanel, các panel điều hướng)
-├── config/      Config.java — đọc .env (credentials, cấu hình app)
-├── util/        UiUtils.java — tiện ích UI dùng chung (font cache)
-├── game/<ten-game>/   Mỗi game: *_StartPanel, *_RulePanel, *Panel + class logic
-└── (tương lai) data/, net/
-src/main/resources/    fonts/, imgs/, gifs/, icons/
-src/test/java/         Unit test (JUnit 5)
-server/                (Phase 7) Spring Boot backend
+common/src/main/java/com/dat/anni/data/    GameCatalog, ScoreEntry + repo/ interfaces (dùng chung)
+app/                                       App desktop Swing (client hiện tại)
+└── src/main/java/com/dat/anni/
+    ├── main/        Main.java — entry point
+    ├── gui/         Khung giao diện chung (GUI, MainPanel, BasePanel, ScoreHubPanel)
+    ├── config/      Config.java — đọc .env (credentials, cấu hình app)
+    ├── util/        UiUtils.java (font cache), SoundManager.java (SFX)
+    ├── game/<ten-game>/   Mỗi game: *_StartPanel, *_RulePanel, *Panel + class logic
+    └── data/        Database(SQLite), AppSession, ScoreService, sqlite/ impls
+app/src/main/resources/    fonts/, imgs/, gifs/, icons/, sfx/
+server/                                    Spring Boot backend (Phase 7)
+└── src/main/java/com/dat/anni/server/     ServerApplication, repo/ JDBC, web/ REST API
 ```
