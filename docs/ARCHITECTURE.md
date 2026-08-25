@@ -50,8 +50,11 @@ anni/ (multi-module Maven)
      ├── POST /api/users · GET/POST /api/scores · GET /api/history
      ├── PostgreSQL (prod) / H2 (dev), Flyway migration
      └── SLF4J + Logback
-CI: GitHub Actions build+test cả 2 module               [Phase 9]
-Deploy dev: docker compose up (server + PostgreSQL)     [Phase 9]
+CI: GitHub Actions build+test cả 3 module               [Phase 9] ✅
+Deploy dev: docker compose up (server + PostgreSQL)     [Phase 9] ✅
+
+> Trạng thái thực tế: các phase trên đã HOÀN THÀNH (common/app/server là
+> tên module thật; client dùng ScoreStore với HTTP-first + SQLite fallback).
 ```
 
 ### Nguyên tắc thiết kế xuyên suốt

@@ -14,9 +14,9 @@
 | 4 | Refactor trùng lặp (UiUtils.loadFont, BasePanel) | ✅ | `refactor:` |
 | 5 | Tầng dữ liệu SQLite (repository interfaces + DAO + JUnit 5/Mockito) | ✅ | `feat:` |
 | 6 | Trải nghiệm (SoundManager SFX, ScoreHubPanel, icon app) | ✅ | `feat:` |
-| 7 | Spring Boot backend (multi-module client/server, PostgreSQL/H2, Flyway) | ⬜ | |
-| 8 | Client ↔ Server (HTTP repository + fallback SQLite offline) | ⬜ | |
-| 9 | CI GitHub Actions + Docker (Dockerfile, docker-compose) | ⬜ | |
+| 7 | Spring Boot backend (multi-module client/server, PostgreSQL/H2, Flyway) | ✅ | `feat:` |
+| 8 | Client ↔ Server (HTTP repository + fallback SQLite offline) | ✅ | `feat:` |
+| 9 | CI GitHub Actions + Docker (Dockerfile, docker-compose) | ✅ | `ci:`/`feat:` |
 
 ## Chi tiết từng phase
 
@@ -150,12 +150,26 @@
 - Verify: 5 test mới (fake server JDK + fallback), tổng 26 test xanh;
   smoke thật: server jar chạy, HttpScoreStore record/top/best OK.
 
+## ✅ Phase 9 — CI GitHub Actions — HOÀN THÀNH
+- `.github/workflows/ci.yml`: temurin JDK 17, cache maven, `mvn -B -ntp clean
+  verify`. Suite đã headless-safe nên chạy được trên runner không display.
+- Lưu ý: workflow mới thực sự xanh sau khi push lên GitHub (chưa verify được
+  ở máy local — không có remote Actions).
+
+## ✅ Phase 10 — Docker cho server — HOÀN THÀNH
+- `Dockerfile` multi-stage: maven build module server → runtime
+  eclipse-temurin:17-jre (bản alpine KHÔNG có manifest cho Apple Silicon).
+- `docker-compose.yml`: postgres:16-alpine (healthcheck pg_isready) + server
+  bật profile `postgres` qua env.
+- **Đã verify thật trên máy:** `docker compose up --build -d` → db healthy,
+  Flyway migrate PG thành công (`flyway_schema_history/users/scores`),
+  curl POST/top/best round-trip OK; `compose down -v` sạch.
+
 ## 🔄 Đang làm
 (không có)
 
 ## ⬜ Việc tiếp theo
-- **Phase 9**: CI GitHub Actions (mvn -B clean verify trên JDK 17)
-- **Phase 10**: Docker cho server + compose với PostgreSQL
+- (Roadmap 10 phase đã đi hết. Đề xuất hướng mới ghi vào mục bên dưới.)
 
 ## Vướng mắc / Lưu ý kỹ thuật
 - Navigation hiện dùng hack `setVisible(true/false)` với CardLayout — hoạt động nhưng fragile; sẽ sửa ở Phase 3, đừng nhân rộng pattern này khi viết panel mới.
