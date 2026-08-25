@@ -41,15 +41,15 @@ public class Game2Panel extends BasePanel {
 		btBack.setFont(buttonFont);
 		btBack.setForeground(Color.BLACK);
 		btBack.setBackground(new Color(240, 248, 255));
-		btBack.setBounds(450, 570, 100, 40);
+		btBack.setBounds(340, 570, 150, 48);
 
 		btScores = new JButton("Scores");
-		btScores.setFont(btBack.getFont());
+		btScores.setFont(buttonFont);
 		btScores.setForeground(Color.BLACK);
 		btScores.setBackground(new Color(240, 248, 255));
-		btScores.setBounds(570, 570, 100, 40);
-		add(btScores);
+		btScores.setBounds(510, 570, 150, 48);
 		add(btBack);
+		add(btScores);
 
 		gameButtons = new JButton[4];
 		String[] gameNames = { "Flappy Bird", "Whac A Mole", "Minesweeper", "Snake" }; // Tên trò chơi

@@ -41,9 +41,13 @@ public class HomePanel extends BasePanel implements Navigable {
 		lbGreeting.setBounds(250, 260, 500, 40);
 		add(lbGreeting);
 
-		addMenuButton("PLAY", 340, () -> main.show(MainPanel.GAMES_PAGE_1));
-		addMenuButton("HIGH SCORES", 420, () -> main.show(MainPanel.SCORES_HUB));
-		addMenuButton("THANK-YOU LETTER", 500, () -> main.show(MainPanel.LETTER_THANKS));
+		addMenuButton("PLAY", 330, () -> main.show(MainPanel.GAMES_PAGE_1));
+		addMenuButton("HIGH SCORES", 400, () -> main.show(MainPanel.SCORES_HUB));
+		addMenuButton("THANK-YOU LETTER", 470, () -> main.show(MainPanel.LETTER_THANKS));
+		addMenuButton("LOGOUT", 540, () -> {
+			com.dat.anni.data.AppSession.logout();
+			main.show(MainPanel.MENU);
+		});
 	}
 
 	private void addMenuButton(String text, int y, Runnable action) {

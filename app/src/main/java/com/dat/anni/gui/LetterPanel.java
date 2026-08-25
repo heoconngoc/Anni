@@ -31,9 +31,9 @@ public class LetterPanel extends BasePanel implements Navigable {
 
 	private void addComps() {
 		lbText = new JLabel();
-		lbText.setFont(UiUtils.loadFont("/fonts/Oswald-VariableFont_wght.ttf", 26f));
+		lbText.setFont(UiUtils.loadFont("/fonts/Oswald-VariableFont_wght.ttf", 21f));
 		lbText.setForeground(java.awt.Color.WHITE);
-		lbText.setBounds(120, 120, 760, 420);
+		lbText.setBounds(140, 100, 720, 460);
 		lbText.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 		add(lbText);
 
@@ -41,7 +41,7 @@ public class LetterPanel extends BasePanel implements Navigable {
 		btNext.setFont(UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 16f));
 		btNext.setForeground(java.awt.Color.BLACK);
 		btNext.setBackground(new java.awt.Color(240, 248, 255));
-		btNext.setBounds((getWidth() > 0 ? getWidth() : 1000) / 2 - 100, 600, 200, 50);
+		btNext.setBounds(400, 600, 200, 50);
 		btNext.addActionListener(e -> main.show(nextCard));
 		add(btNext);
 	}
@@ -71,6 +71,6 @@ public class LetterPanel extends BasePanel implements Navigable {
 				.replace("<br>", "\n")   // thống nhất xuống dòng từ formatLetter
 				.replace("&", "&amp;")   // thoát HTML trước khi bọc
 				.replace("\n", "<br>");
-		lbText.setText("<html><div style='line-height: 1.5;'>" + body + "</div></html>");
+		lbText.setText("<html><div style='line-height: 1.4; font-size: 15px;'>" + body + "</div></html>");
 	}
 }
