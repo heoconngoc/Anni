@@ -1,101 +1,120 @@
-# DECISIONS.md — Sổ quyết định kỹ thuật (ADR rút gọn)
+# DECISIONS.md — Architecture Decision Records (condensed)
 
-> Mỗi quyết định lớn: bối cảnh → lựa chọn → lý do. Đảo ngược quyết định cũ phải thêm
-> mục mới (không sửa mục cũ) kèm lý do đủ mạnh.
+> Each entry: context → decision → rationale. To reverse an old decision, add
+> a NEW entry with strong reasons; never rewrite history.
 
-## D01 — Giữ Java 17, build bằng Maven
-- **Bối cảnh:** project gốc Java 17 + Maven + Eclipse song song.
-- **Quyết định:** chuẩn hóa về Maven duy nhất, bỏ file Eclipse.
-- **Lý do:** VS Code/IntelliJ đều làm việc trực tiếp với `pom.xml`; một nguồn sự thật duy nhất.
+## D01 — Java 17, built with Maven
+- **Context:** original project mixed Java 17 + Maven + Eclipse metadata.
+- **Decision:** standardize on Maven alone; drop Eclipse files.
+- **Rationale:** VS Code/IntelliJ work directly against `pom.xml`; single
+  source of truth.
 
-## D02 — Cấu hình nhạy cảm dùng dotenv-java (Phase 2) ✅
-- **Bối cảnh:** user/mật khẩu login hardcode trong `MenuPanel`; dependency dotenv-java đã có sẵn trong pom nhưng chưa dùng.
-- **Quyết định:** tạo `.env` (+ `.env.example` commit) và class `Config` load 1 lần với `ignoreIfMissing()` + giá trị fallback.
-- **Lý do:** tận dụng dependency hiện có; app quà cá nhân vẫn chạy được ngay cả khi thiếu `.env`.
-- **Bổ sung khi thực hiện (2026-08-25):** fallback cho secret là **giá trị rỗng**, không
-  bake sẵn credentials vào source — thiếu `.env` thì app vẫn mở/chơi chế độ khách nhưng
-  không login được. Kèm theo: thêm JUnit 5 từ Phase 2 (sớm hơn kế hoạch Phase 5) để test
-  logic parse của `Config`.
-- **Bổ sung 2 (2026-08-25):** toàn bộ nội dung thư cá nhân (guest + Special 1/2/3) cũng đưa
-  vào `.env` (`LETTER_GUEST`, `LETTER_SPECIAL_1..3`) vì là dữ liệu riêng tư của tác giả.
-  Placeholder `{name}` + `\n` xuống dòng, xử lý trong `Config.formatLetter()`; khung HTML
-  (style) vẫn nằm ở code — tách nội dung khỏi trình bày.
+## D02 — Sensitive configuration via dotenv-java
+- **Context:** login credentials were hardcoded in `MenuPanel`; the
+  dotenv-java dependency sat unused in the pom.
+- **Decision:** `.env` file (+ committed `.env.example`) and a `Config` class
+  loading once with `ignoreIfMissing()` and fallback values.
+- **Rationale:** reuse an existing dependency; a gift app must still run when
+  `.env` is missing.
+- **Refinement:** secret fallbacks are **empty strings** — no baked-in
+  credentials. Without `.env` the app opens in guest mode but cannot log in.
+  Personal letter contents (`LETTER_GUEST`, `LETTER_SPECIAL_1..3`) also live
+  in `.env`; `{name}` placeholder and `\n` newlines handled by
+  `Config.formatLetter()` — content separated from presentation.
 
-## D03 — Tầng dữ liệu: SQLite trước, server sau, chung interface repository (Option C)
-- **Bối cảnh:** cần lưu high scores, user profile, lịch sử chơi; cân nhắc embedded DB vs backend thật.
-- **Quyết định:** Phase 5 SQLite nhúng qua JDBC; Phase 7 Spring Boot + PostgreSQL đứng sau cùng interface; Phase 8 HTTP impl tự fallback về SQLite khi offline.
-- **Lý do:** giảm rủi ro từng bước, game code không phụ thuộc nguồn dữ liệu, luôn giữ khả năng chơi offline.
+## D03 — Data layer: SQLite first, server later, shared repository interfaces
+- **Context:** needed high scores, user profiles, play history; weighed an
+  embedded DB vs a real backend.
+- **Decision:** Phase order SQLite (embedded JDBC) → Spring Boot +
+  PostgreSQL behind the SAME interfaces → HTTP client implementation that
+  falls back to SQLite offline.
+- **Rationale:** risk reduced step by step; game code never depends on the
+  data source; offline play is always preserved.
 
-## D04 — Backend chọn Spring Boot (Phase 7)
-- **Bối cảnh:** so sánh Spring Boot / Quarkus / Javalin / plain JDK HttpServer cho ~4–5 endpoint.
-- **Quyết định:** Spring Boot, multi-module Maven (`client/`, `server/`), PostgreSQL prod + H2 dev, Flyway migration.
-- **Lý do:** chuẩn ngành dễ học/dễ bàn giao cho agent sau; hệ sinh thái (JPA, Flyway, test) đầy đủ; chấp nhận "nặng hơn cần thiết" như chi phí học tập.
+## D04 — Backend: Spring Boot
+- **Context:** compared Spring Boot / Quarkus / Javalin / plain JDK
+  HttpServer for ~5 endpoints.
+- **Decision:** Spring Boot, multi-module Maven (`common`/`app`/`server`),
+  PostgreSQL prod + H2 dev, Flyway migrations.
+- **Rationale:** industry standard, rich ecosystem (Flyway, testing), accepts
+  being "heavier than strictly necessary" as a learning cost.
 
-## D05 — Phạm vi test: logic + DAO, không GUI Swing
-- **Quyết định:** JUnit 5 + Mockito cho game logic, service, DAO, REST controller (MockMvc). Không viết unit test cho panel Swing.
-- **Lý do:** test GUI Swing tốn công bảo trì cao, giá trị/thiếu hụt thấp với app cá nhân; logic mới là nơi bug tập trung.
+## D05 — Test scope: logic + DAO + API, no Swing GUI unit tests
+- **Decision:** JUnit 5 for game logic, services, DAOs, REST controllers
+  (MockMvc). No unit tests for Swing panels.
+- **Rationale:** GUI tests are expensive to maintain with low value here;
+  bugs concentrate in logic. One sanctioned exception: the env-gated
+  real-GUI focus regression suite (D13).
 
-## D06 — CI GitHub Actions + Docker (Phase 9)
-- **Quyết định:** giữ CI dù solo dev; Dockerfile + docker-compose (server + PostgreSQL).
-- **Lý do:** CI = trọng tài khách quan cho nhiều agent cùng tham gia + môi trường sạch bắt lỗi kiểu "chỉ chạy trên máy tôi"; Docker biến việc dựng full-stack thành 1 lệnh.
+## D06 — CI GitHub Actions + Docker
+- **Decision:** keep CI even as a solo developer; Dockerfile +
+  docker-compose (server + PostgreSQL).
+- **Rationale:** CI is an impartial referee and catches "works only on my
+  machine"; Docker makes full-stack startup a one-liner.
 
-## D07 — Quy trình tài liệu-first
-- **Quyết định:** `PROGRESS.md` là bộ nhớ chung, cập nhật ngay sau mỗi phase; mọi phase phải qua DoD; Conventional Commits.
-- **Lý do:** project được thiết kế để agent khác tiếp quản liên tục — docs là hợp đồng giao tiếp.
+## D07 — Documentation-first workflow
+- **Decision:** every phase updated its status document before committing;
+  everything gated by a Definition of Done; Conventional Commits throughout.
+- **Rationale:** the project was built to be handover-friendly. The roadmap
+  (Phases 1–10) is complete; history lives in git log.
 
-## D08 — Navigation CardLayout chuyển sang named-card ✅ (Phase 3)
-- **Bối cảnh:** điều hướng cũ dựa side-effect của `setVisible(true/false)` — fragile, đã kiểm chứng thực nghiệm.
-- **Quyết định:** đăng ký panel theo hằng tên trong `MainPanel` + `CardLayout.show(parent, name)`
-  (API chính thức, tự quản lý visibility — đã test riêng để xác nhận); xóa toàn bộ self-hiding.
-- Kèm theo: `Navigable` (`onEnter`/`onLeave`) để dừng/reset game loop khi rời panel;
-  `MainPanelAware` bắt buộc cho mọi panel (fail-fast khi thiếu wiring).
-- **Trạng thái:** đã hoàn thành Phase 3. Cấm quay lại pattern cũ.
+## D08 — Navigation switched to named cards
+- **Context:** old navigation relied on side effects of
+  `setVisible(true/false)` — verified fragile in practice.
+- **Decision:** register panels under named constants in `MainPanel`;
+  switch screens only via official `CardLayout.show(parent, name)`; delete
+  all self-hiding tricks. Added `Navigable` (`onEnter`/`onLeave`) to
+  stop/reset game loops off-screen and mandatory `MainPanelAware` wiring
+  (fail-fast at registration).
+- Reverting to the old pattern is prohibited.
 
-## D09 — BasePanel kế thừa + UiUtils.loadFont ✅ (Phase 4)
-- **Quyết định:** mọi panel điều hướng `extends BasePanel` (main + nền + layout null);
-  font chỉ nạp qua `UiUtils.loadFont(path, size)` có cache; overlay riêng thì override
-  `paintComponent` và gọi `super` trước.
-- Game logic class (PacMan, SnakeGame...) vẫn extends JPanel — không ép qua BasePanel.
-- **Trạng thái:** đã hoàn thành Phase 4.
+## D09 — BasePanel inheritance + UiUtils.loadFont
+- **Decision:** all navigable panels extend `BasePanel` (frame reference,
+  background image, null layout); fonts load exclusively through cached
+  `UiUtils.loadFont(path, size)`; custom overlays override `paintComponent`
+  and call `super` first. Game logic classes stay plain `JPanel`.
+- Rationale: deleted ~1,400 lines of duplicated boilerplate across 32 panels.
 
-## D10 — Data layer: repository interface + SQLite trước ✅ (Phase 5)
-- **Quyết định:** GUI chỉ đụng `ScoreService`; bên dưới là `UserRepository`/`ScoreRepository`
-  interfaces + impl SQLite. Phase 8 thay impl bằng HTTP client, GUI không đổi.
-- SQLite dùng 1 connection duy nhất cho cả app (desktop, EDT đơn luồng là chính).
-- Điểm hiện nay đều là "càng cao càng tốt"; game kiểu thời gian/lượt ít hơn sẽ thêm sau.
-- Game KHÔNG được start Timer trong constructor (chỉ start ở wrapper `onEnter`) —
-  tránh chạy ngầm + ghi điểm rác (bug thật đã bắt được trong Phase 5).
-- File DB mặc định `anni.db` (gitignored), override bằng `DB_PATH` trong .env.
+## D10 — Data layer contract: facade + repositories, timers owned by wrappers
+- **Decision:** GUI only touches `ScoreService`; underneath sit
+  `UserRepository`/`ScoreRepository` interfaces with a SQLite implementation.
+  Games NEVER start timers in constructors (wrapper `onEnter()` does) —
+  hidden background games were polluting scores (real bug caught this way).
+  Single SQLite connection per app; default DB file `anni.db` (gitignored),
+  overridable via `DB_PATH`. Scores are "higher is better" for now;
+  time/low-is-better games come later with their own convention.
 
-## D11 — Âm thanh SFX: resource-first, tự tổng hợp làm fallback ✅ (Phase 6)
-- **Quyết định:** `SoundManager` nạp `/sfx/<ten>.wav` nếu có; thiếu thì tự sinh sóng sine
-  (click / game-over thang / win arpeggio). Không bắt buộc asset, ai muốn thay âm thật
-  chỉ việc bỏ file wav vào resources/sfx với đúng tên.
-- SFX chạy thread riêng, mọi lỗi âm thanh bị nuốt (không làm chết game).
-- Không viết unit test cho âm thanh (theo D05).
+## D11 — SFX: resource-first, synthesized fallback
+- **Decision:** `SoundManager` loads `/sfx/<name>.wav` when present; missing
+  files are replaced by synthesized tones (click / game-over sweep / win
+  arpeggio). Sounds run on their own thread; audio errors are swallowed so
+  they can never kill gameplay. No asset required — drop real wav files into
+  `resources/sfx/` anytime.
 
-## D12 — Icon app dùng lại icon game có sẵn ✅ (Phase 6)
-- **Quyết định:** icon cửa sổ = `/icons/PacMan Icon.jpg`. Muốn đổi → thay đường dẫn trong
-  GUI hoặc bỏ file riêng rồi trỏ tới. macOS dock icon không đổi bằng setIconImage
-  (cần jpackage/bundle riêng) — chấp nhận, không làm trong phase này.
+## D12 — App icon reuses an existing game asset
+- **Decision:** window icon = `/icons/PacMan Icon.jpg`. Note: macOS dock icon
+  cannot be changed via `setIconImage` (needs jpackage/bundle) — accepted
+  limitation.
 
-## D13 — Game dùng phím phải tự giành focus trong onEnter ✅
-- **Quyết định:** panel chứa game điều khiển bằng bàn phím bắt buộc gọi
-  `game.requestFocusInWindow()` trong `Navigable.onEnter()`. Không dựa vào cơ chế
-  auto-transfer focus của Swing (fragile, đã gây bug thật).
-- **Kiểm chứng hồi quy:** probe script boot app thật → điều hướng từng game card →
-  xác nhận focus owner là component game trước khi gửi phím tổng hợp.
+## D13 — Key-driven games must claim focus in onEnter()
+- **Decision:** every wrapper of a keyboard-controlled game calls
+  `game.requestFocusInWindow()` inside `Navigable.onEnter()`. Never rely on
+  Swing's auto focus transfer (it broke for real after the CardLayout
+  refactor).
+- **Regression guard:** `WrapperFocusConventionTest` always runs;
+  `GuiFocusRegressionTest` (env-gated, real GUI) verifies focus ownership per
+  card and that synthetic space input actually moves the dinosaur.
 
 ## D14 — Multi-module Maven: common / app / server
-- **Quyết định:** tách hợp đồng dữ liệu (`com.dat.anni.data`: GameCatalog,
-  ScoreEntry, repo/UserRepository, repo/ScoreRepository) sang module
-  `anni-common`; app desktop và server cùng phụ thuộc common. Giữ nguyên tên
-  package để client không phải sửa import.
-- **Lý do:** Phase 8 chỉ cần thay implementation phía client mà không đụng
-  hợp đồng; tránh copy-paste DTO giữa 2 bên.
+- **Decision:** extract shared data contracts (`GameCatalog`, `ScoreEntry`,
+  `UserRepository`, `ScoreRepository`) into module `anni-common`; both the
+  desktop app and the server depend on it. Package names unchanged so the
+  client needed zero import edits.
+- **Rationale:** swapping client implementations later touches no contracts;
+  no DTO copy-paste between sides.
 
-## D15 — Server DB: H2 in-memory mặc định, profile `postgres`
-- **Quyết định:** dev/test dùng H2 mem MODE=PostgreSQL + Flyway; production
-  bật profile `postgres` (DB_URL/DB_USER/DB_PASSWORD qua env).
-- **Lý do:** test nhanh không cần hạ tầng; schema SQL viết theo dialect PG
-  để chuyển môi trường chỉ bằng profile.
+## D15 — Server DB: H2 in-memory by default, `postgres` profile for production
+- **Decision:** dev/test on H2 mem `MODE=PostgreSQL` + Flyway; production
+  enables profile `postgres` (`DB_URL`/`DB_USER`/`DB_PASSWORD` via env).
+- **Rationale:** fast tests without infrastructure; schema written in
+  PostgreSQL dialect so switching environments is just a profile flip.

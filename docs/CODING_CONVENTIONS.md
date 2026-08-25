@@ -1,66 +1,93 @@
-# CODING_CONVENTIONS.md — Quy tắc viết code
+# CODING_CONVENTIONS.md
 
-## Định dạng
-- **Indent: TAB** (chuẩn hiện tại của codebase — giữ nguyên nhất quán).
-- Mỗi class Swing có `private static final long serialVersionUID = 1L;`
-- Import tường minh, không dùng wildcard `import java.awt.*;`
+Rules for writing code in this repository. Keep new code consistent with what
+is already here.
 
-## Đặt tên
-- Package: lowercase không gạch dưới → `com.dat.anni.game.snake`
-- Class/interface: `PascalCase` — panel đuôi `Panel`, rule `Xxx_RulePanel`, start `Xxx_StartPanel`
-- Method/biến: `camelCase`; hằng số: `UPPER_SNAKE_CASE`
-- Component Swing: prefix loại + tên chức năng → `btStart`, `lbTitle`, `tfUser`, `pnMain`
-- Test method: `should<Expectation>_when<Condition>()` — ví dụ `shouldIncreaseSpeed_whenFoodEaten`
+## Formatting
 
-## Pattern class Swing (bắt buộc)
+- **Indentation: TABs** (existing codebase standard — stay consistent).
+- Every Swing class declares `private static final long serialVersionUID = 1L;`
+- Explicit imports only — no wildcards like `import java.awt.*;`
+
+## Naming
+
+- Packages: lowercase, no underscores → `com.dat.anni.game.snake`
+- Classes/interfaces: `PascalCase`; panels end in `Panel`, rule screens
+  `Xxx_RulePanel`, start screens `Xxx_StartPanel`
+- Methods/variables: `camelCase`; constants: `UPPER_SNAKE_CASE`
+- Swing components: type prefix + purpose → `btStart`, `lbTitle`, `tfUser`, `pnMain`
+- Test methods: `should<Expectation>_when<Condition>()` — e.g.
+  `shouldIncreaseSpeed_whenFoodEaten`
+
+## Swing class pattern (mandatory)
+
 ```java
-public class XxxPanel extends JPanel implements MainPanelAware {
+public class XxxPanel extends BasePanel implements MainPanelAware {
     public XxxPanel() {
-        initPanel();   // layout, font, background
-        addComps();    // tạo + add component
-        addEvents();   // listener
+        initPanel();   // layout, fonts, background
+        addComps();    // create + add components
+        addEvents();   // listeners
     }
 
     @Override
     public void setMainPanel(MainPanel main) { ... }
 }
 ```
-- **Điều hướng:** chỉ qua `main.show(MainPanel.TEN_HANG)` — cấm `setVisible(true/false)`
-  để chuyển màn hình (vẫn dùng bình thường cho ẩn/hiện component nội bộ).
-- **Game loop:** panel chứa game implement thêm `Navigable`, dừng/reset Timer trong
-  `onLeave()`, khởi động lại trong `onEnter()` nếu game tự chạy.
-- **Game dùng phím:** trong `onEnter()` phải gọi `game.requestFocusInWindow()` —
-  xem D13. Constructor của game class KHÔNG được start Timer (chỉ start qua onEnter).
-- **Listener chỉ điều phối** — gọi hàm của game/service, KHÔNG viết logic nghiệp vụ trong `actionPerformed`.
-- Không đặt logic game vào Panel; panel chỉ là vỏ hiển thị.
 
-## Tài nguyên (fonts/ảnh/âm thanh)
-- Chỉ nằm ở `src/main/resources/`, load qua classpath root: `getResource("/imgs/x.png")`.
-- Stream luôn đóng bằng try-with-resources.
-- Font load duy nhất qua `UiUtils.loadFont(path, size)` (có cache) — **cấm copy-paste khối try-catch load font**.
-- Panel mới `extends BasePanel` (đã có main + hình nền + layout null); truyền đường dẫn
-  nền qua `super("...")`. Overlay vẽ thêm thì override `paintComponent` và gọi `super.paintComponent(g)` trước.
-- Filename mới: chữ thường, không dấu cách (dùng `-` hoặc `_`).
+- **Navigation:** only through `main.show(MainPanel.CONSTANT)`. Never switch
+  screens with `setVisible(true/false)` (hiding/showing inner components is
+  still fine).
+- **Game loop:** panels hosting a running game also implement `Navigable`;
+  stop/reset timers in `onLeave()`, restart them in `onEnter()`.
+- **Key-driven games:** `onEnter()` must call `game.requestFocusInWindow()` —
+  see D13. Never rely on Swing's automatic focus transfer.
+- **Timers:** game logic classes must NOT start timers in their constructors;
+  lifecycle is owned by the wrapper panel via `onEnter()`.
+- **Listeners only dispatch** — call game/service methods inside
+  `actionPerformed`; do not write business logic there.
+- Panels are display shells only; game logic lives in the game classes.
 
-## Exception & logging
-- Cấm `printStackTrace()` trong code mới. Giai đoạn trước Phase 7: log ra `System.err`
-  kèm ngữ cảnh ("Không tải được font X, fallback Arial"). Từ Phase 7: SLF4J (`log.error(...)`).
-- Bắt exception cụ thể, không bắt `Exception` trừ ranh giới ngoài cùng (main/listener).
+## Resources (fonts/images/sounds)
 
-## Cấu hình nhạy cảm
-- Cấm hardcode mật khẩu/key/URL cá nhân trong source. Đưa vào `.env`, đọc qua
-  `Config` (Phase 2). `.env` không bao giờ commit.
+- Live under module `src/main/resources/`, loaded from the classpath root:
+  `getResource("/imgs/x.png")`.
+- Always close streams with try-with-resources.
+- Load fonts exclusively via `UiUtils.loadFont(path, size)` (cached) — never
+  copy-paste font-loading try/catch blocks.
+- New panels extend `BasePanel` (frame reference + background image + null
+  layout built in); pass the background path via `super("...")`. To draw an
+  overlay, override `paintComponent` and call `super.paintComponent(g)` first.
+- New asset filenames: lowercase, no spaces (use `-` or `_`).
+
+## Exceptions & logging
+
+- No `printStackTrace()` in new code. Client side: log to `System.err` with
+  context ("Failed to load font X, falling back to Arial"). Server side:
+  SLF4J (`log.error(...)`).
+- Catch specific exceptions; catch broad `Exception` only at outermost
+  boundaries (main/listeners).
+
+## Sensitive configuration
+
+- Never hardcode passwords/keys/personal URLs in source. Put them in `.env`
+  and read them through `Config`. `.env` is never committed.
 
 ## Git
+
 - Conventional Commits: `feat:` / `fix:` / `refactor:` / `docs:` / `test:` / `chore:`
-- 1 phase ≥ 1 commit riêng; message dòng đầu ≤ 72 ký tự, tiếng Anh hoặc tiếng Việt nhất quán.
-- Không commit: `target/`, `bin/`, `.DS_Store`, `.env`, file IDE.
+- First line ≤ 72 characters; English messages preferred for this public repo.
+- Never commit: `target/`, `bin/`, `.DS_Store`, `.env`, IDE files.
 
-## Test (từ Phase 5)
-- JUnit 5 + Mockito; test logic và DAO bắt buộc với mọi code mới.
-- Cấu trúc AAA (Arrange–Act–Assert), 1 test = 1 hành vi.
-- GUI Swing: không bắt buộc unit test (ra quyết định D05).
+## Testing
 
-## Việc cấm khác
-- Điều hướng chỉ qua `main.show(MainPanel.TEN)`; panel mới bắt buộc `implements MainPanelAware` (và `Navigable` nếu chứa game loop).
-- Không thêm dependency mới khi chưa ghi vào `DECISIONS.md`.
+- JUnit 5 (+ MockMvc for the server); tests required for all new logic, DAO
+  and API code. Structure AAA (Arrange–Act–Assert); one test = one behavior.
+- Swing GUI panels are not unit-tested by policy (D05). The one sanctioned
+  end-to-end GUI suite is `GuiFocusRegressionTest`, gated behind
+  `ANNI_GUI_PROBE=1` and self-skipping without a display.
+
+## Other prohibitions
+
+- New dependency? Record the rationale in `DECISIONS.md` first.
+- New navigable panels must implement `MainPanelAware` (plus `Navigable` when
+  they host a game loop or per-screen state).
