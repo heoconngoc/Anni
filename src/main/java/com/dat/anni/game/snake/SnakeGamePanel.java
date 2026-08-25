@@ -1,49 +1,35 @@
 package com.dat.anni.game.snake;
 
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.dat.anni.gui.BasePanel;
 import com.dat.anni.gui.MainPanel;
 import com.dat.anni.gui.MainPanelAware;
 import com.dat.anni.gui.Navigable;
 
-public class SnakeGamePanel extends JPanel implements Navigable, MainPanelAware {
+import com.dat.anni.util.UiUtils;
+
+public class SnakeGamePanel extends BasePanel implements Navigable {
 	private static final long serialVersionUID = 1L;
-	private MainPanel main;
 	private SnakeGame snakeGame;
-	private Image backgroundImage;
 	private JButton btBack;
 	private Font buttonFont;
 
 	public SnakeGamePanel() {
+		super("/imgs/backgroundgame.jpg");
 		initPanel();
 		addComps();
 		addEvents();
 	}
 
 	private void initPanel() {
-		backgroundImage = new ImageIcon(getClass().getResource("/imgs/backgroundgame.jpg")).getImage();
-		setLayout(null);
 
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
-			if (fontStream != null) {
-				buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(16f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			buttonFont = new Font("Arial", Font.PLAIN, 20);
-		}
+		buttonFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 16f);
 	}
 
 	private void addComps() {
@@ -73,16 +59,5 @@ public class SnakeGamePanel extends JPanel implements Navigable, MainPanelAware 
 		snakeGame.restartGame();
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		// Vẽ hình nền GIF
-		if (backgroundImage != null) {
-			g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-		}
-	}
 
-	public void setMainPanel(MainPanel main) {
-		this.main = main;
-	}
 }

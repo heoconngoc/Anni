@@ -5,58 +5,35 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
-import java.io.IOException;
-import java.io.InputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements MainPanelAware {
+import com.dat.anni.util.UiUtils;
+
+public class GamePanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
-	private Image backgroundImage;
 	private JButton btBack, btNext;
 	private Font buttonFont, normalFont;
-	private MainPanel main;
 	private JButton[] gameButtons;
 
 	public GamePanel() {
+		super("/gifs/mine.gif");
 		initPanel();
 		addComps();
 		addEvents();
 	}
 
 	private void initPanel() {
-		backgroundImage = new ImageIcon(getClass().getResource("/gifs/mine.gif")).getImage();
-		setLayout(null);
+		buttonFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 16f);
 
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
-			if (fontStream != null) {
-				buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(16f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			buttonFont = new Font("Arial", Font.PLAIN, 20);
-		}
-
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/RubikMonoOne-Regular.ttf")) {
-			if (fontStream != null) {
-				normalFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(20f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			normalFont = new Font("Arial", Font.PLAIN, 16);
-		}
+		normalFont = UiUtils.loadFont("/fonts/RubikMonoOne-Regular.ttf", 20f);
 	}
 
 	private void addComps() {
@@ -171,11 +148,7 @@ public class GamePanel extends JPanel implements MainPanelAware {
 	}
 
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		// Vẽ hình nền GIF
-		if (backgroundImage != null) {
-			g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-		}
+super.paintComponent(g);
 
 		// Vẽ nền đen mờ
 		Graphics2D g2d = (Graphics2D) g.create();
@@ -197,7 +170,4 @@ public class GamePanel extends JPanel implements MainPanelAware {
 		g2d.dispose();
 	}
 
-	public void setMainPanel(MainPanel main) {
-		this.main = main;
-	}
 }

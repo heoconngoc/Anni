@@ -2,14 +2,9 @@ package com.dat.anni.gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,18 +14,19 @@ import javax.swing.border.LineBorder;
 
 import com.dat.anni.config.Config;
 
-public class MenuPanel extends JPanel implements MainPanelAware {
+import com.dat.anni.util.UiUtils;
+
+public class MenuPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
-	private Image backgroundImage;
 	private JButton btBack, btLogin;
 	private JLabel lbTitle, lbUser, lbPass, lbWarning, lbWrong, lbHint, lbWarningPass;
 	private JTextField tfUser;
 	private JPasswordField tfPass;
 	private Font buttonFont, titleFont, normalFont;
-	private MainPanel main;
 	private int loginTimes, wrongTimes;
 
 	public MenuPanel() {
+		super("/gifs/mine.gif");
 		initPanel();
 		addComps();
 		addEvents();
@@ -39,41 +35,11 @@ public class MenuPanel extends JPanel implements MainPanelAware {
 	private void initPanel() {
 		loginTimes = 0;
 		wrongTimes = 0;
-		backgroundImage = new ImageIcon(getClass().getResource("/gifs/mine.gif")).getImage();
-		setLayout(null);
+		buttonFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 22f);
 
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
-			if (fontStream != null) {
-				buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(22f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			buttonFont = new Font("Arial", Font.PLAIN, 30);
-		}
+		titleFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 60f);
 
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
-			if (fontStream != null) {
-				titleFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(60f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			titleFont = new Font("Arial", Font.PLAIN, 20);
-		}
-
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/RubikMonoOne-Regular.ttf")) {
-			if (fontStream != null) {
-				normalFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(20f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			normalFont = new Font("Arial", Font.PLAIN, 16);
-		}
+		normalFont = UiUtils.loadFont("/fonts/RubikMonoOne-Regular.ttf", 20f);
 	}
 
 	private void addComps() {
@@ -273,16 +239,5 @@ public class MenuPanel extends JPanel implements MainPanelAware {
 		btLogin.setBounds(510, b ? 450 : 380, 150, 50);
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		// Vẽ hình nền GIF
-		if (backgroundImage != null) {
-			g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-		}
-	}
 
-	public void setMainPanel(MainPanel main) {
-		this.main = main;
-	}
 }

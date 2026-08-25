@@ -40,6 +40,7 @@ src/main/java/com/dat/anni/
 ├── main/        Main.java — entry point
 ├── gui/         Khung giao diện chung (GUI, MainPanel, các panel điều hướng)
 ├── config/      Config.java — đọc .env (credentials, cấu hình app)
+├── util/        UiUtils.java — tiện ích UI dùng chung (font cache)
 ├── game/<ten-game>/   Mỗi game: *_StartPanel, *_RulePanel, *Panel + class logic
 └── (tương lai) data/, net/
 src/main/resources/    fonts/, imgs/, gifs/, icons/

@@ -50,3 +50,10 @@
 - Kèm theo: `Navigable` (`onEnter`/`onLeave`) để dừng/reset game loop khi rời panel;
   `MainPanelAware` bắt buộc cho mọi panel (fail-fast khi thiếu wiring).
 - **Trạng thái:** đã hoàn thành Phase 3. Cấm quay lại pattern cũ.
+
+## D09 — BasePanel kế thừa + UiUtils.loadFont ✅ (Phase 4)
+- **Quyết định:** mọi panel điều hướng `extends BasePanel` (main + nền + layout null);
+  font chỉ nạp qua `UiUtils.loadFont(path, size)` có cache; overlay riêng thì override
+  `paintComponent` và gọi `super` trước.
+- Game logic class (PacMan, SnakeGame...) vẫn extends JPanel — không ép qua BasePanel.
+- **Trạng thái:** đã hoàn thành Phase 4.

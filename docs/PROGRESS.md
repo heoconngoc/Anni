@@ -11,7 +11,7 @@
 | 1 | Chuẩn hóa Maven (package, resources, .gitignore) | ✅ | `refactor:` |
 | 2 | `.env` bảo mật credentials (dotenv-java + Config.java) | ✅ | `feat:` |
 | 3 | Điều hướng CardLayout chuẩn (named cards, dừng Timer) | ✅ | `refactor:` |
-| 4 | Refactor trùng lặp (UiUtils.loadFont, BasePanel) | ⬜ | |
+| 4 | Refactor trùng lặp (UiUtils.loadFont, BasePanel) | ✅ | `refactor:` |
 | 5 | Tầng dữ liệu SQLite (repository interfaces + DAO + JUnit 5/Mockito) | ⬜ | |
 | 6 | Trải nghiệm (SoundManager SFX, ScoreHubPanel, icon app) | ⬜ | |
 | 7 | Spring Boot backend (multi-module client/server, PostgreSQL/H2, Flyway) | ⬜ | |
@@ -65,12 +65,21 @@
 - Kiểm chứng: `mvn clean verify` xanh (10 test), smoke test boot sạch. Khuyến nghị:
   người dùng click thử tay qua các màn hình + vào giữa trận rồi Back ở từng game.
 
+### Phase 4 — Refactor trùng lặp ✅
+- `UiUtils.loadFont(path, size)`: thay 53 khối try-catch copy-paste ở 32 panel;
+  cache font theo đường dẫn (không nạp lại TTF nhiều lần), fallback Arial + log System.err.
+- `BasePanel` (gui): gộp 3 thứ lặp y hệt — field `main` + `setMainPanel`, hình nền
+  full-size trong `paintComponent`, `setLayout(null)`. 32/32 panel chuyển sang
+  `extends BasePanel` (truyền nền qua `super("...")`); 6 panel có overlay riêng
+  (Game/Game2/Normal/Special1-2-3) giữ paintComponent chỉ vẽ phần overlay.
+- Tổng: **32 file, −1379 / +242 dòng**. `mvn clean verify` xanh, smoke test sạch.
+
 ## 🔄 Đang làm
 (không có — mọi phase đã đóng)
 
 ## ⬜ Việc tiếp theo
-- **Phase 4**: refactor trùng lặp — `UiUtils.loadFont()` thay ~40 khối try-catch,
-  `BasePanel` dùng chung background/nút Back.
+- **Phase 5**: tầng dữ liệu SQLite — schema users/scores, DAO interface,
+  tích hợp điểm cao các game.
 
 ## Vướng mắc / Lưu ý kỹ thuật
 - Navigation hiện dùng hack `setVisible(true/false)` với CardLayout — hoạt động nhưng fragile; sẽ sửa ở Phase 3, đừng nhân rộng pattern này khi viết panel mới.

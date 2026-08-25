@@ -2,69 +2,35 @@ package com.dat.anni.gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StartPanel extends JPanel implements MainPanelAware {
+import com.dat.anni.util.UiUtils;
+
+public class StartPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
-	private Image backgroundImage;
-	private MainPanel main;
 	private JLabel lbTitle1, lbTitle2;
 	private JButton btStart, btMenu;
 	private Font buttonFont, title1Font, title2Font;
 
 	public StartPanel() {
+		super("/gifs/mine.gif");
 		initPanel();
 		addComps();
 		addEvents();
 	}
 
 	private void initPanel() {
-		backgroundImage = new ImageIcon(getClass().getResource("/gifs/mine.gif")).getImage();
-		setLayout(null);
-
 		// Tải font từ tài nguyên
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
-			if (fontStream != null) {
-				buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(28f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			buttonFont = new Font("Arial", Font.PLAIN, 20);
-		}
+		buttonFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 28f);
 
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
-			if (fontStream != null) {
-				title1Font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(50f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			title1Font = new Font("Arial", Font.PLAIN, 20);
-		}
+		title1Font = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 50f);
 
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
-			if (fontStream != null) {
-				title2Font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(70f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			title2Font = new Font("Arial", Font.PLAIN, 20);
-		}
+		title2Font = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 70f);
 	}
 
 	private void addComps() {
@@ -114,16 +80,5 @@ public class StartPanel extends JPanel implements MainPanelAware {
 		});
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		// Vẽ hình nền GIF
-		if (backgroundImage != null) {
-			g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-		}
-	}
 
-	public void setMainPanel(MainPanel main) {
-		this.main = main;
-	}
 }

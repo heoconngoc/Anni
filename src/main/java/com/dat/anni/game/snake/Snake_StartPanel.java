@@ -2,49 +2,35 @@ package com.dat.anni.game.snake;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.dat.anni.gui.BasePanel;
 import com.dat.anni.gui.MainPanel;
 import com.dat.anni.gui.MainPanelAware;
 
-public class Snake_StartPanel extends JPanel implements MainPanelAware {
+import com.dat.anni.util.UiUtils;
+
+public class Snake_StartPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
-	private MainPanel main;
 	private JButton btStart, btRule, btBackToGameList;
-	private Image backgroundImage;
 	private Font buttonFont;
 
 	public Snake_StartPanel() {
+		super("/imgs/Snake_OG-logo.jpg");
 		initPanel();
 		addComps();
 		addEvents();
 	}
 
 	private void initPanel() {
-		backgroundImage = new ImageIcon(getClass().getResource("/imgs/Snake_OG-logo.jpg")).getImage();
-		setLayout(null);
 
 		// Tải font từ tài nguyên
-		try (InputStream fontStream = getClass().getResourceAsStream("/fonts/PressStart2P-Regular.ttf")) {
-			if (fontStream != null) {
-				buttonFont = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(28f);
-			} else {
-				throw new IOException("Font không tìm thấy");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			buttonFont = new Font("Arial", Font.PLAIN, 20);
-		}
+		buttonFont = UiUtils.loadFont("/fonts/PressStart2P-Regular.ttf", 28f);
 	}
 
 	private void addComps() {
@@ -97,16 +83,5 @@ public class Snake_StartPanel extends JPanel implements MainPanelAware {
 
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		if (backgroundImage != null) {
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-		}
-	}
 
-	public void setMainPanel(MainPanel main) {
-		this.main = main;
-	}
 }

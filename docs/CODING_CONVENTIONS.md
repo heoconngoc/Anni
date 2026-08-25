@@ -35,7 +35,9 @@ public class XxxPanel extends JPanel implements MainPanelAware {
 ## Tài nguyên (fonts/ảnh/âm thanh)
 - Chỉ nằm ở `src/main/resources/`, load qua classpath root: `getResource("/imgs/x.png")`.
 - Stream luôn đóng bằng try-with-resources.
-- Font load qua helper chung (Phase 4 sẽ có `UiUtils.loadFont`) — **cấm copy-paste khối try-catch load font**.
+- Font load duy nhất qua `UiUtils.loadFont(path, size)` (có cache) — **cấm copy-paste khối try-catch load font**.
+- Panel mới `extends BasePanel` (đã có main + hình nền + layout null); truyền đường dẫn
+  nền qua `super("...")`. Overlay vẽ thêm thì override `paintComponent` và gọi `super.paintComponent(g)` trước.
 - Filename mới: chữ thường, không dấu cách (dùng `-` hoặc `_`).
 
 ## Exception & logging
