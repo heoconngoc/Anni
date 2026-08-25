@@ -15,3 +15,6 @@ bin/
 
 # Secrets & env
 .env
+
+# Maven shade
+dependency-reduced-pom.xml
