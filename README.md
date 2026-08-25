@@ -41,7 +41,6 @@ Swing games ─▶ ScoreService ─▶ ScoreStore ── HTTP first ──▶ Sp
 | Welcome Screen | Game List |
 |---|---|
 | ![Welcome Screen](docs/images/welcome.png) | ![Game List](docs/images/Game_list.png) |
-|---|---|
 | Minesweeper | Pacman |
 | ![Minesweeper](docs/images/mines.png) | ![Pacman](docs/images/pacman1.png) |
 
