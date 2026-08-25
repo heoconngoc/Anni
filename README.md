@@ -38,16 +38,13 @@ Swing games ─▶ ScoreService ─▶ ScoreStore ── HTTP first ──▶ Sp
 
 ## Screenshots
 
-<!-- Drop captures into docs/images/ using these names, then uncomment:
-snake.png, pacman.png, space.png, dino.png, flappy.png, whac.png,
-match.png, mines.png
-
-| Snake | Pac-Man |
+| Welcome Screen | Game List |
 |---|---|
-| ![Snake](docs/images/snake.png) | ![Pac-Man](docs/images/pacman.png) |
-| **Space Invaders** | **Chrome Dinosaur** |
-| ![Space](docs/images/space.png) | ![Dino](docs/images/dino.png) |
--->
+| ![Welcome Screen](docs/images/welcome.png) | ![Game List](docs/images/Game_list.png) |
+|---|---|
+| Minesweeper | Pacman |
+| ![Minesweeper](docs/images/space.png) | ![Pacman](docs/images/dino.png) |
+
 
 ## Tech Stack
 
