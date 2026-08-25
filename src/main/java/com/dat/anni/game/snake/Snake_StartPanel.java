@@ -15,8 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
 
-public class Snake_StartPanel extends JPanel {
+public class Snake_StartPanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private JButton btStart, btRule, btBackToGameList;
@@ -74,8 +75,7 @@ public class Snake_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSnakeGamePanel();
-				setVisible(false);
+				main.show(MainPanel.SNAKE_GAME);
 			}
 		});
 
@@ -83,8 +83,7 @@ public class Snake_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSnake_RulePanel();
-				setVisible(false);
+				main.show(MainPanel.SNAKE_RULES);
 			}
 		});
 
@@ -92,8 +91,7 @@ public class Snake_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showGame2Panel();
-				setVisible(false);
+				main.show(MainPanel.GAMES_PAGE_2);
 			}
 		});
 

@@ -14,14 +14,21 @@
 
 ## Pattern class Swing (bắt buộc)
 ```java
-public class XxxPanel extends JPanel {
+public class XxxPanel extends JPanel implements MainPanelAware {
     public XxxPanel() {
         initPanel();   // layout, font, background
         addComps();    // tạo + add component
         addEvents();   // listener
     }
+
+    @Override
+    public void setMainPanel(MainPanel main) { ... }
 }
 ```
+- **Điều hướng:** chỉ qua `main.show(MainPanel.TEN_HANG)` — cấm `setVisible(true/false)`
+  để chuyển màn hình (vẫn dùng bình thường cho ẩn/hiện component nội bộ).
+- **Game loop:** panel chứa game implement thêm `Navigable`, dừng/reset Timer trong
+  `onLeave()`, khởi động lại trong `onEnter()` nếu game tự chạy.
 - **Listener chỉ điều phối** — gọi hàm của game/service, KHÔNG viết logic nghiệp vụ trong `actionPerformed`.
 - Không đặt logic game vào Panel; panel chỉ là vỏ hiển thị.
 
@@ -51,5 +58,5 @@ public class XxxPanel extends JPanel {
 - GUI Swing: không bắt buộc unit test (ra quyết định D05).
 
 ## Việc cấm khác
-- Không nhân rộng pattern điều hướng `setVisible(true/false)` hiện tại — chờ Phase 3 thay bằng named-card.
+- Điều hướng chỉ qua `main.show(MainPanel.TEN)`; panel mới bắt buộc `implements MainPanelAware` (và `Navigable` nếu chứa game loop).
 - Không thêm dependency mới khi chưa ghi vào `DECISIONS.md`.

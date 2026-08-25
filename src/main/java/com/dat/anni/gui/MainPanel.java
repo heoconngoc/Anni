@@ -2,6 +2,9 @@ package com.dat.anni.gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -32,43 +35,48 @@ import com.dat.anni.game.whacamole.Whac_StartPanel;
 
 public class MainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private StartPanel startPanel;
-	private MenuPanel menuPanel;
-	private SpecialPanel specialPanel;
+
+	public static final String START = "start";
+	public static final String MENU = "menu";
+	public static final String NORMAL = "normal";
+	public static final String SPECIAL_1 = "special1";
+	public static final String SPECIAL_2 = "special2";
+	public static final String SPECIAL_3 = "special3";
+	public static final String GAMES_PAGE_1 = "gamesPage1";
+	public static final String GAMES_PAGE_2 = "gamesPage2";
+
+	public static final String PAC_START = "pacStart";
+	public static final String PAC_RULES = "pacRules";
+	public static final String PAC_GAME = "pacGame";
+	public static final String WHAC_START = "whacStart";
+	public static final String WHAC_RULES = "whacRules";
+	public static final String WHAC_GAME = "whacGame";
+	public static final String MATCH_START = "matchStart";
+	public static final String MATCH_RULES = "matchRules";
+	public static final String MATCH_GAME = "matchGame";
+	public static final String SPACE_START = "spaceStart";
+	public static final String SPACE_RULES = "spaceRules";
+	public static final String SPACE_GAME = "spaceGame";
+	public static final String DINO_START = "dinoStart";
+	public static final String DINO_RULES = "dinoRules";
+	public static final String DINO_GAME = "dinoGame";
+	public static final String FLAPPY_START = "flappyStart";
+	public static final String FLAPPY_RULES = "flappyRules";
+	public static final String FLAPPY_GAME = "flappyGame";
+	public static final String SNAKE_START = "snakeStart";
+	public static final String SNAKE_RULES = "snakeRules";
+	public static final String SNAKE_GAME = "snakeGame";
+	public static final String MINES_START = "minesStart";
+	public static final String MINES_RULES = "minesRules";
+	public static final String MINES_GAME = "minesGame";
+
+	private final Map<String, Component> cards = new HashMap<>();
 	private NormalPanel normalPanel;
-	private Special2Panel special2Panel;
-	private Special3Panel special3Panel;
-	private GamePanel gamePanel;
-	private Game2Panel game2Panel;
-	private Pac_StartPanel pac_StartPanel;
-	private Pac_RulePanel pac_RulePanel;
-	private PacManPanel pacManPanel;
-	private Whac_StartPanel whac_StartPanel;
-	private WhacAMolePanel whacAMolePanel;
-	private Whac_RulePanel whac_RulePanel;
-	private Match_StartPanel match_StartPanel;
-	private Match_RulePanel match_RulePanel;
-	private MatchCardPanel matchCardPanel;
-	private Space_StartPanel space_StartPanel;
-	private Space_RulePanel space_RulePanel;
-	private SpaceInvadersPanel spaceInvadersPanel;
-	private ChromeDinosaurPanel chromeDinosaurPanel;
-	private Dino_StartPanel dino_StartPanel;
-	private Dino_RulePanel dino_RulePanel;
-	private FlappyBirdPanel flappyBirdPanel;
-	private Flappy_StartPanel flappy_StartPanel;
-	private Flappy_RulePanel flappy_RulePanel;
-	private Mines_StartPanel mines_StartPanel;
-	private MinesweeperPanel minesweeperPanel;
-	private Mines_RulePanel mines_RulePanel;
-	private SnakeGamePanel snakeGamePanel;
-	private Snake_StartPanel snake_StartPanel;
-	private Snake_RulePanel snakeRulePanel;
+	private String currentName;
 
 	public MainPanel() {
 		initPanel();
 		addComps();
-		addEvents();
 	}
 
 	private void initPanel() {
@@ -76,270 +84,76 @@ public class MainPanel extends JPanel {
 		setLayout(new CardLayout());
 	}
 
+	private void register(String name, JPanel panel) {
+		if (!(panel instanceof MainPanelAware aware)) {
+			throw new IllegalArgumentException("Panel phải implement MainPanelAware: " + panel.getClass().getName());
+		}
+		aware.setMainPanel(this);
+		if (NORMAL.equals(name)) {
+			normalPanel = (NormalPanel) panel;
+		}
+		cards.put(name, panel);
+		add(panel, name);
+	}
+
 	private void addComps() {
-		startPanel = new StartPanel();
-		startPanel.setMainPanel(this);
-		add(startPanel);
+		register(START, new StartPanel());
+		register(MENU, new MenuPanel());
+		register(NORMAL, new NormalPanel());
+		register(SPECIAL_1, new SpecialPanel());
+		register(SPECIAL_2, new Special2Panel());
+		register(SPECIAL_3, new Special3Panel());
+		register(GAMES_PAGE_1, new GamePanel());
+		register(GAMES_PAGE_2, new Game2Panel());
 
-		menuPanel = new MenuPanel();
-		menuPanel.setMainPanel(this);
-		add(menuPanel);
+		register(PAC_START, new Pac_StartPanel());
+		register(PAC_RULES, new Pac_RulePanel());
+		register(PAC_GAME, new PacManPanel());
 
-		specialPanel = new SpecialPanel();
-		specialPanel.setMainPanel(this);
-		add(specialPanel);
+		register(WHAC_START, new Whac_StartPanel());
+		register(WHAC_RULES, new Whac_RulePanel());
+		register(WHAC_GAME, new WhacAMolePanel());
 
-		normalPanel = new NormalPanel();
-		normalPanel.setMainPanel(this);
-		add(normalPanel);
+		register(MATCH_START, new Match_StartPanel());
+		register(MATCH_RULES, new Match_RulePanel());
+		register(MATCH_GAME, new MatchCardPanel());
 
-		special2Panel = new Special2Panel();
-		special2Panel.setMainPanel(this);
-		add(special2Panel);
+		register(SPACE_START, new Space_StartPanel());
+		register(SPACE_RULES, new Space_RulePanel());
+		register(SPACE_GAME, new SpaceInvadersPanel());
 
-		special3Panel = new Special3Panel();
-		special3Panel.setMainPanel(this);
-		add(special3Panel);
+		register(DINO_START, new Dino_StartPanel());
+		register(DINO_RULES, new Dino_RulePanel());
+		register(DINO_GAME, new ChromeDinosaurPanel());
 
-		gamePanel = new GamePanel();
-		gamePanel.setMainPanel(this);
-		add(gamePanel);
+		register(FLAPPY_START, new Flappy_StartPanel());
+		register(FLAPPY_RULES, new Flappy_RulePanel());
+		register(FLAPPY_GAME, new FlappyBirdPanel());
 
-		game2Panel = new Game2Panel();
-		game2Panel.setMainPanel(this);
-		add(game2Panel);
+		register(SNAKE_START, new Snake_StartPanel());
+		register(SNAKE_RULES, new Snake_RulePanel());
+		register(SNAKE_GAME, new SnakeGamePanel());
 
-		pac_StartPanel = new Pac_StartPanel();
-		pac_StartPanel.setMainPanel(this);
-		add(pac_StartPanel);
-
-		pac_RulePanel = new Pac_RulePanel();
-		pac_RulePanel.setMainPanel(this);
-		add(pac_RulePanel);
-
-		pacManPanel = new PacManPanel();
-		pacManPanel.setMainPanel(this);
-		add(pacManPanel);
-
-		whac_StartPanel = new Whac_StartPanel();
-		whac_StartPanel.setMainPanel(this);
-		add(whac_StartPanel);
-
-		whacAMolePanel = new WhacAMolePanel();
-		whacAMolePanel.setMainPanel(this);
-		add(whacAMolePanel);
-
-		whac_RulePanel = new Whac_RulePanel();
-		whac_RulePanel.setMainPanel(this);
-		add(whac_RulePanel);
-
-		match_StartPanel = new Match_StartPanel();
-		match_StartPanel.setMainPanel(this);
-		add(match_StartPanel);
-
-		match_RulePanel = new Match_RulePanel();
-		match_RulePanel.setMainPanel(this);
-		add(match_RulePanel);
-
-		matchCardPanel = new MatchCardPanel();
-		matchCardPanel.setMainPanel(this);
-		add(matchCardPanel);
-
-		space_StartPanel = new Space_StartPanel();
-		space_StartPanel.setMainPanel(this);
-		add(space_StartPanel);
-
-		space_RulePanel = new Space_RulePanel();
-		space_RulePanel.setMainPanel(this);
-		add(space_RulePanel);
-
-		spaceInvadersPanel = new SpaceInvadersPanel();
-		spaceInvadersPanel.setMainPanel(this);
-		add(spaceInvadersPanel);
-
-		dino_StartPanel = new Dino_StartPanel();
-		dino_StartPanel.setMainPanel(this);
-		add(dino_StartPanel);
-
-		dino_RulePanel = new Dino_RulePanel();
-		dino_RulePanel.setMainPanel(this);
-		add(dino_RulePanel);
-
-		chromeDinosaurPanel = new ChromeDinosaurPanel();
-		chromeDinosaurPanel.setMainPanel(this);
-		add(chromeDinosaurPanel);
-
-		flappyBirdPanel = new FlappyBirdPanel();
-		flappyBirdPanel.setMainPanel(this);
-		add(flappyBirdPanel);
-
-		flappy_StartPanel = new Flappy_StartPanel();
-		flappy_StartPanel.setMainPanel(this);
-		add(flappy_StartPanel);
-
-		flappy_RulePanel = new Flappy_RulePanel();
-		flappy_RulePanel.setMainPanel(this);
-		add(flappy_RulePanel);
-
-		snake_StartPanel = new Snake_StartPanel();
-		snake_StartPanel.setMainPanel(this);
-		add(snake_StartPanel);
-
-		snakeGamePanel = new SnakeGamePanel();
-		snakeGamePanel.setMainPanel(this);
-		add(snakeGamePanel);
-
-		snakeRulePanel = new Snake_RulePanel();
-		snakeRulePanel.setMainPanel(this);
-		add(snakeRulePanel);
-
-		mines_StartPanel = new Mines_StartPanel();
-		mines_StartPanel.setMainPanel(this);
-		add(mines_StartPanel);
-
-		minesweeperPanel = new MinesweeperPanel();
-		minesweeperPanel.setMainPanel(this);
-		add(minesweeperPanel);
-
-		mines_RulePanel = new Mines_RulePanel();
-		mines_RulePanel.setMainPanel(this);
-		add(mines_RulePanel);
+		register(MINES_START, new Mines_StartPanel());
+		register(MINES_RULES, new Mines_RulePanel());
+		register(MINES_GAME, new MinesweeperPanel());
 	}
 
-	private void addEvents() {
-
-	}
-
-	public void showStartPanel() {
-		startPanel.setVisible(true);
-	}
-
-	public void showMenuPanel() {
-		menuPanel.setVisible(true);
-	}
-
-	public void showSpecialPanel() {
-		specialPanel.setVisible(true);
-	}
-
-	public void showNormalPanel() {
-		normalPanel.setVisible(true);
-	}
-
-	public void showSpecial2Panel() {
-		special2Panel.setVisible(true);
-	}
-
-	public void showSpecial3Panel() {
-		special3Panel.setVisible(true);
-	}
-
-	public void showGamePanel() {
-		gamePanel.setVisible(true);
-	}
-
-	public void showGame2Panel() {
-		game2Panel.setVisible(true);
-	}
-
-	public void showPac_StartPanel() {
-		pac_StartPanel.setVisible(true);
-	}
-
-	public void showPac_RulePanel() {
-		pac_RulePanel.setVisible(true);
-	}
-
-	public void showPacManPanel() {
-		pacManPanel.setVisible(true);
-	}
-
-	public void showWhac_StartPanel() {
-		whac_StartPanel.setVisible(true);
-	}
-
-	public void showWhacAMolePanel() {
-		whacAMolePanel.setVisible(true);
-	}
-
-	public void showWhac_RulePanel() {
-		whac_RulePanel.setVisible(true);
-	}
-
-	public void showMatch_StartPanel() {
-		match_StartPanel.setVisible(true);
-	}
-
-	public void showMatch_RulePanel() {
-		match_RulePanel.setVisible(true);
-	}
-
-	public void showMatchCardPanel() {
-		matchCardPanel.setVisible(true);
-	}
-
-	public void showSpace_StartPanel() {
-		space_StartPanel.setVisible(true);
-	}
-
-	public void showSpace_RulePanel() {
-		space_RulePanel.setVisible(true);
-	}
-
-	public void showSpaceInvadersPanel() {
-		spaceInvadersPanel.setVisible(true);
-	}
-
-	public void showDino_StartPanel() {
-		dino_StartPanel.setVisible(true);
-	}
-
-	public void showDino_RulePanel() {
-		dino_RulePanel.setVisible(true);
-	}
-
-	public void showChromeDinosaurPanel() {
-		chromeDinosaurPanel.setVisible(true);
-	}
-
-	public void showFlappyBirdPanel() {
-		flappyBirdPanel.setVisible(true);
-	}
-
-	public void showFlappy_StartPanel() {
-		flappy_StartPanel.setVisible(true);
-	}
-
-	public void showFlappy_RulePanel() {
-		flappy_RulePanel.setVisible(true);
-	}
-
-	public void showMines_StartPanel() {
-		mines_StartPanel.setVisible(true);
-	}
-
-	public void showMinesweeperPanel() {
-		minesweeperPanel.setVisible(true);
-	}
-
-	public void showMines_RulePanel() {
-		mines_RulePanel.setVisible(true);
-	}
-
-	public void showSnakeGamePanel() {
-		snakeGamePanel.setVisible(true);
-	}
-
-	public void showSnake_StartPanel() {
-		snake_StartPanel.setVisible(true);
-	}
-
-	public void showSnake_RulePanel() {
-		snakeRulePanel.setVisible(true);
+	public void show(String name) {
+		if (name.equals(currentName)) {
+			return;
+		}
+		if (currentName != null && cards.get(currentName) instanceof Navigable leaving) {
+			leaving.onLeave();
+		}
+		((CardLayout) getLayout()).show(this, name);
+		currentName = name;
+		if (cards.get(name) instanceof Navigable entering) {
+			entering.onEnter();
+		}
 	}
 
 	public void setLbLetter(String string) {
 		normalPanel.setLbLetter(string);
 	}
-
 }

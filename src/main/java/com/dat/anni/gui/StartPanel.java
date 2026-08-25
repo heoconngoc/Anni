@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StartPanel extends JPanel {
+public class StartPanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	private MainPanel main;
@@ -101,8 +101,7 @@ public class StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMenuPanel();
-				setVisible(false);
+				main.show(MainPanel.MENU);
 			}
 		});
 
@@ -110,8 +109,7 @@ public class StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showGamePanel();
-				setVisible(false);
+				main.show(MainPanel.GAMES_PAGE_1);
 			}
 		});
 	}

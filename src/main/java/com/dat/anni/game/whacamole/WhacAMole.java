@@ -109,6 +109,12 @@ public class WhacAMole extends JPanel {
 	}
 
 	private void startTimers() {
+		if (moleTimer != null) {
+			moleTimer.stop();
+		}
+		if (plantTimer != null) {
+			plantTimer.stop();
+		}
 		moleTimer = new Timer(1000, e -> spawnMole());
 		plantTimer = new Timer(1500, e -> spawnPlants());
 		moleTimer.start();
@@ -183,10 +189,5 @@ public class WhacAMole extends JPanel {
 		Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
 		highScore = prefs.getInt("WhacHighScore", 0); // Tải điểm cao (mặc định là 0 nếu không tìm thấy)
 		highScoreLabel.setText("High Score: " + highScore);
-	}
-
-	public void newGame() {
-		stopTimers();
-		showRestartButton();
 	}
 }

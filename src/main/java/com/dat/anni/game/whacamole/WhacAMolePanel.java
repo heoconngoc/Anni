@@ -14,8 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
+import com.dat.anni.gui.Navigable;
 
-public class WhacAMolePanel extends JPanel {
+public class WhacAMolePanel extends JPanel implements Navigable, MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private WhacAMole whacAMole;
@@ -63,9 +65,7 @@ public class WhacAMolePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showWhac_StartPanel();
-				whacAMole.newGame();
-				setVisible(false);
+				main.show(MainPanel.WHAC_START);
 			}
 		});
 	}
@@ -81,4 +81,15 @@ public class WhacAMolePanel extends JPanel {
 	public void setMainPanel(MainPanel main) {
 		this.main = main;
 	}
+
+	@Override
+	public void onEnter() {
+		whacAMole.restartGame();
+	}
+
+	@Override
+	public void onLeave() {
+		whacAMole.stopTimers();
+	}
+
 }

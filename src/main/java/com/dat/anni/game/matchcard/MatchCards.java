@@ -365,7 +365,7 @@ public class MatchCards extends JPanel {
 		}
 	}
 
-	private void restartGame() {
+	public void restartGame() {
 		gameReady = false;
 		restartButton.setEnabled(false);
 		card1Selected = null;

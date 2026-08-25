@@ -224,6 +224,23 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 		alienCount = alienArray.size();
 	}
 
+	public void resetGame() {
+		gameLoop.stop();
+		ship.x = shipX;
+		bulletArray.clear();
+		alienArray.clear();
+		gameOver = false;
+		score = 0;
+		alienColumns = 3;
+		alienRows = 2;
+		alienVelocityX = 1;
+		createAliens();
+	}
+
+	public void resumeGame() {
+		gameLoop.start();
+	}
+
 	public boolean detectCollision(Block a, Block b) {
 		return a.x < b.x + b.width && // a's top left corner doesn't reach b's top right corner
 				a.x + a.width > b.x && // a's top right corner passes b's top left corner

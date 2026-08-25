@@ -19,7 +19,7 @@ import javax.swing.border.LineBorder;
 
 import com.dat.anni.config.Config;
 
-public class MenuPanel extends JPanel {
+public class MenuPanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	private JButton btBack, btLogin;
@@ -192,8 +192,7 @@ public class MenuPanel extends JPanel {
 				lbWarning.setVisible(false);
 				lbWrong.setVisible(false);
 				lbHint.setVisible(false);
-				main.showStartPanel();
-				setVisible(false);
+				main.show(MainPanel.START);
 			}
 		});
 
@@ -227,7 +226,7 @@ public class MenuPanel extends JPanel {
 							wrongTimes = 0;
 							resetFields();
 							showPasswordFields(false);
-							main.showSpecialPanel();
+							main.show(MainPanel.SPECIAL_1);
 						} else {
 							wrongTimes += 1;
 							if (wrongTimes > 0 && wrongTimes < 2) {
@@ -247,7 +246,7 @@ public class MenuPanel extends JPanel {
 					String letterBody = Config.formatLetter(Config.GUEST_LETTER, tfUser.getText());
 					main.setLbLetter("<html>" + "<div style='line-height: 1.5;'>" + letterBody + "</div>"
 							+ "</html>");
-					main.showNormalPanel();
+					main.show(MainPanel.NORMAL);
 					resetFields();
 
 				}
@@ -257,7 +256,6 @@ public class MenuPanel extends JPanel {
 	}
 
 	private void resetFields() {
-		setVisible(false);
 		tfUser.setText("");
 		tfPass.setText("");
 		lbPass.setVisible(false);

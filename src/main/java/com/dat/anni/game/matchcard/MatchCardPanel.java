@@ -13,8 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
+import com.dat.anni.gui.Navigable;
 
-public class MatchCardPanel extends JPanel {
+public class MatchCardPanel extends JPanel implements Navigable, MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private MatchCards matchCards;
@@ -62,10 +64,14 @@ public class MatchCardPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMatch_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.MATCH_START);
 			}
 		});
+	}
+
+	@Override
+	public void onLeave() {
+		matchCards.restartGame();
 	}
 
 	@Override

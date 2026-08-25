@@ -31,11 +31,12 @@
   input qua KeyListener/MouseListener, vẽ tay trong `paintComponent`.
 - Điểm cao lưu qua `java.util.prefs.Preferences`.
 
-### Điều hướng (đã biết fragile — sửa ở Phase 3)
-- Toàn bộ panel được tạo sẵn trong `MainPanel.addComps()`.
-- Chuyển màn hình = gọi `main.showXxx()` + panel cũ tự `setVisible(false)` — dựa vào
-  side-effect của `CardLayout.layoutContainer`, không phải API chính thức.
-- **Hệ quả:** mọi tài nguyên được load lúc khởi động → thiếu 1 file là app chết ngay.
+### Điều hướng (chuẩn hóa từ Phase 3)
+- Mọi panel được đăng ký trong `MainPanel` theo hằng tên: `MainPanel.SNAKE_GAME`, ...
+- Chuyển màn hình duy nhất qua `main.show(MainPanel.TEN)` → `CardLayout.show()` chính thức.
+- Panel implement `Navigable` để nhận `onEnter()`/`onLeave()` — game loop (Timer)
+  dừng/reset khi rời màn hình, không còn chạy ngầm.
+- Panel bắt buộc implement `MainPanelAware`; `MainPanel.register()` fail-fast nếu thiếu.
 
 ## Kiến trúc ĐÍCH ĐẾN (sau Phase 9)
 

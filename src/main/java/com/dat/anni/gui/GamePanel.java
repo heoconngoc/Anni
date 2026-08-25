@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	private JButton btBack, btNext;
@@ -125,8 +125,7 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showStartPanel();
-				setVisible(false);
+				main.show(MainPanel.START);
 			}
 		});
 
@@ -134,8 +133,7 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showGame2Panel();
-				setVisible(false);
+				main.show(MainPanel.GAMES_PAGE_2);
 			}
 		});
 
@@ -143,8 +141,7 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showPac_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.PAC_START);
 			}
 		});
 
@@ -152,8 +149,7 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMatch_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.MATCH_START);
 			}
 		});
 
@@ -161,8 +157,7 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSpace_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.SPACE_START);
 			}
 		});
 
@@ -170,8 +165,7 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showDino_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.DINO_START);
 			}
 		});
 	}

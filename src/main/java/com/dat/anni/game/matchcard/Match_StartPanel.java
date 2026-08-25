@@ -15,9 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.dat.anni.gui.MainPanel;;
+import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;;
 
-public class Match_StartPanel extends JPanel {
+public class Match_StartPanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private JButton btStart, btRule, btBackToGameList;
@@ -94,8 +95,7 @@ public class Match_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMatchCardPanel();
-				setVisible(false);
+				main.show(MainPanel.MATCH_GAME);
 			}
 		});
 
@@ -103,8 +103,7 @@ public class Match_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMatch_RulePanel();
-				setVisible(false);
+				main.show(MainPanel.MATCH_RULES);
 			}
 		});
 
@@ -112,8 +111,7 @@ public class Match_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showGamePanel();
-				setVisible(false);
+				main.show(MainPanel.GAMES_PAGE_1);
 			}
 		});
 	}

@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 
 import com.dat.anni.config.Config;
 
-public class SpecialPanel extends JPanel {
+public class SpecialPanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	private Font buttonFont, normalFont;
@@ -89,8 +89,7 @@ public class SpecialPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMenuPanel();
-				setVisible(false);
+				main.show(MainPanel.MENU);
 			}
 		});
 
@@ -98,8 +97,7 @@ public class SpecialPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSpecial2Panel();
-				setVisible(false);
+				main.show(MainPanel.SPECIAL_2);
 			}
 		});
 	}

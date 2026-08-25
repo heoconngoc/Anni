@@ -13,8 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
+import com.dat.anni.gui.Navigable;
 
-public class SnakeGamePanel extends JPanel {
+public class SnakeGamePanel extends JPanel implements Navigable, MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private SnakeGame snakeGame;
@@ -61,13 +63,14 @@ public class SnakeGamePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				snakeGame.restartGame();
-				// Giữ lại điểm cao
-				snakeGame.setHighScore(snakeGame.getHighScore());
-				main.showSnake_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.SNAKE_START);
 			}
 		});
+	}
+
+	@Override
+	public void onLeave() {
+		snakeGame.restartGame();
 	}
 
 	@Override

@@ -19,8 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
 
-public class Dino_RulePanel extends JPanel {
+public class Dino_RulePanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private JButton btBack;
@@ -90,8 +91,7 @@ public class Dino_RulePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showDino_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.DINO_START);
 			}
 		});
 	}

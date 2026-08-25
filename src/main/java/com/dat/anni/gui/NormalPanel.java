@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class NormalPanel extends JPanel {
+public class NormalPanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	private Font buttonFont, normalFont;
@@ -92,8 +92,7 @@ public class NormalPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMenuPanel();
-				setVisible(false);
+				main.show(MainPanel.MENU);
 			}
 		});
 
@@ -101,8 +100,7 @@ public class NormalPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showStartPanel();
-				setVisible(false);
+				main.show(MainPanel.START);
 			}
 		});
 	}

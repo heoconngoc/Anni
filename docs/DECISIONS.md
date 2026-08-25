@@ -43,7 +43,10 @@
 - **Quyết định:** `PROGRESS.md` là bộ nhớ chung, cập nhật ngay sau mỗi phase; mọi phase phải qua DoD; Conventional Commits.
 - **Lý do:** project được thiết kế để agent khác tiếp quản liên tục — docs là hợp đồng giao tiếp.
 
-## D08 — Navigation CardLayout sẽ chuyển sang named-card (Phase 3)
-- **Bối cảnh:** điều hướng hiện dựa side-effect của `setVisible(true/false)` — fragile, đã kiểm chứng thực nghiệm.
-- **Quyết định:** đăng ký panel theo tên hằng + `CardLayout.show(parent, name)`; đồng thời dừng Timer game khi rời panel.
-- **Trạng thái:** chờ thực hiện Phase 3. Cấm nhân rộng pattern cũ.
+## D08 — Navigation CardLayout chuyển sang named-card ✅ (Phase 3)
+- **Bối cảnh:** điều hướng cũ dựa side-effect của `setVisible(true/false)` — fragile, đã kiểm chứng thực nghiệm.
+- **Quyết định:** đăng ký panel theo hằng tên trong `MainPanel` + `CardLayout.show(parent, name)`
+  (API chính thức, tự quản lý visibility — đã test riêng để xác nhận); xóa toàn bộ self-hiding.
+- Kèm theo: `Navigable` (`onEnter`/`onLeave`) để dừng/reset game loop khi rời panel;
+  `MainPanelAware` bắt buộc cho mọi panel (fail-fast khi thiếu wiring).
+- **Trạng thái:** đã hoàn thành Phase 3. Cấm quay lại pattern cũ.

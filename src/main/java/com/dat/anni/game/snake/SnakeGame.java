@@ -250,12 +250,4 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 			this.y = y;
 		}
 	}
-
-	public int getHighScore() {
-		return highScore;
-	}
-
-	public void setHighScore(int highScore) {
-		this.highScore = highScore;
-	}
 }

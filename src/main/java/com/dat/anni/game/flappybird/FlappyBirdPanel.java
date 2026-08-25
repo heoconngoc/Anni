@@ -14,8 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
+import com.dat.anni.gui.Navigable;
 
-public class FlappyBirdPanel extends JPanel {
+public class FlappyBirdPanel extends JPanel implements Navigable, MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private FlappyBird flappyBird;
@@ -63,8 +65,7 @@ public class FlappyBirdPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showFlappy_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.FLAPPY_START);
 			}
 		});
 	}
@@ -80,4 +81,10 @@ public class FlappyBirdPanel extends JPanel {
 	public void setMainPanel(MainPanel main) {
 		this.main = main;
 	}
+
+	@Override
+	public void onLeave() {
+		flappyBird.resetGame();
+	}
+
 }

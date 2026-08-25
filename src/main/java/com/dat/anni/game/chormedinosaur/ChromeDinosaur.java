@@ -135,6 +135,17 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
 		}
 	}
 
+	public void resetGame() {
+		gameLoop.stop();
+		placeCactusTimer.stop();
+		dinosaur.y = dinosaurY;
+		dinosaur.img = dinosaurImg;
+		velocityY = 0;
+		cactusArray.clear();
+		score = 0;
+		gameOver = false;
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		draw(g);

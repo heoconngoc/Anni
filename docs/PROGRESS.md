@@ -10,7 +10,7 @@
 | 0 | Nền tảng tài liệu (`AGENTS.md`, `docs/`) | ✅ | `docs:` |
 | 1 | Chuẩn hóa Maven (package, resources, .gitignore) | ✅ | `refactor:` |
 | 2 | `.env` bảo mật credentials (dotenv-java + Config.java) | ✅ | `feat:` |
-| 3 | Điều hướng CardLayout chuẩn (named cards, dừng Timer) | ⬜ | |
+| 3 | Điều hướng CardLayout chuẩn (named cards, dừng Timer) | ✅ | `refactor:` |
 | 4 | Refactor trùng lặp (UiUtils.loadFont, BasePanel) | ⬜ | |
 | 5 | Tầng dữ liệu SQLite (repository interfaces + DAO + JUnit 5/Mockito) | ⬜ | |
 | 6 | Trải nghiệm (SoundManager SFX, ScoreHubPanel, icon app) | ⬜ | |
@@ -48,12 +48,29 @@
   login). Quy ước `\n` = xuống dòng; helper `Config.formatLetter()` có test. Nội dung gốc được
   trích xuất tự động từ source nên giữ nguyên văn.
 
+### Phase 3 — Điều hướng CardLayout chuẩn ✅
+- Viết lại `MainPanel`: 32 panel đăng ký theo hằng tên (`MainPanel.SNAKE_GAME`...),
+  điều hướng qua **một** phương thức `show(name)` dùng `CardLayout.show()` chính thức
+  (đã kiểm chứng thực nghiệm: show() tự ẩn các card khác, không còn chồng lớp).
+- Xóa 33 method `showXxxPanel()` + toàn bộ cặp `show()/setVisible(false)` rải rác
+  (~64 call site chuyển đổi).
+- Interface `Navigable` (`onEnter`/`onLeave`): MainPanel gọi đúng lúc khi chuyển màn.
+  Dừng game loop khi rời panel — sửa lỗi game chạy ngầm trong nền:
+  - PacMan/SpaceInvaders: `resetGame()` + `resumeGame()` (mới thêm)
+  - ChromeDinosaur/FlappyBird: `resetGame()` (mới thêm)
+  - Snake/MatchCards: tái dùng restart; WhacAMole: `stopTimers` + chống double-timer
+- Interface `MainPanelAware`: panel mới bắt buộc implement để được nối tham chiếu
+  MainPanel — `register()` fail-fast nếu thiếu (bắt được lỗi wiring ngay lúc boot).
+- Dọn dead code: `WhacAMole.newGame()`, `SnakeGame.get/setHighScore`.
+- Kiểm chứng: `mvn clean verify` xanh (10 test), smoke test boot sạch. Khuyến nghị:
+  người dùng click thử tay qua các màn hình + vào giữa trận rồi Back ở từng game.
+
 ## 🔄 Đang làm
 (không có — mọi phase đã đóng)
 
 ## ⬜ Việc tiếp theo
-- **Phase 3**: điều hướng CardLayout chuẩn — panel đăng ký theo tên hằng + `show(name)`,
-  bỏ hack `setVisible`, dừng Timer game khi rời panel.
+- **Phase 4**: refactor trùng lặp — `UiUtils.loadFont()` thay ~40 khối try-catch,
+  `BasePanel` dùng chung background/nút Back.
 
 ## Vướng mắc / Lưu ý kỹ thuật
 - Navigation hiện dùng hack `setVisible(true/false)` với CardLayout — hoạt động nhưng fragile; sẽ sửa ở Phase 3, đừng nhân rộng pattern này khi viết panel mới.

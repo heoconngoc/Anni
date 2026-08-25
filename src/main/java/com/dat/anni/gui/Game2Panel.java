@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Game2Panel extends JPanel {
+public class Game2Panel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	private JButton btBack;
@@ -117,8 +117,7 @@ public class Game2Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showGamePanel();
-				setVisible(false);
+				main.show(MainPanel.GAMES_PAGE_1);
 			}
 		});
 
@@ -126,8 +125,7 @@ public class Game2Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showFlappy_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.FLAPPY_START);
 			}
 		});
 
@@ -135,8 +133,7 @@ public class Game2Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showWhac_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.WHAC_START);
 			}
 		});
 
@@ -144,8 +141,7 @@ public class Game2Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showMines_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.MINES_START);
 			}
 		});
 
@@ -153,8 +149,7 @@ public class Game2Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSnake_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.SNAKE_START);
 			}
 		});
 	}

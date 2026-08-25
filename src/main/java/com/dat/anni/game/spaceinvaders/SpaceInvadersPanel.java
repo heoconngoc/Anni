@@ -14,8 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
+import com.dat.anni.gui.Navigable;
 
-public class SpaceInvadersPanel extends JPanel {
+public class SpaceInvadersPanel extends JPanel implements Navigable, MainPanelAware {
 	private static final long serialVersionUID = 1L;
 
 	private MainPanel main;
@@ -65,10 +67,19 @@ public class SpaceInvadersPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSpace_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.SPACE_START);
 			}
 		});
+	}
+
+	@Override
+	public void onEnter() {
+		spaceInvaders.resumeGame();
+	}
+
+	@Override
+	public void onLeave() {
+		spaceInvaders.resetGame();
 	}
 
 	@Override

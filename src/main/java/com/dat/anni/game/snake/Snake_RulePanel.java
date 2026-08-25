@@ -19,8 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
 
-public class Snake_RulePanel extends JPanel {
+public class Snake_RulePanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private JButton btBack;
@@ -92,8 +93,7 @@ public class Snake_RulePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSnake_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.SNAKE_START);
 			}
 		});
 	}

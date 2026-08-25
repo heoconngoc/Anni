@@ -14,9 +14,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import com.dat.anni.gui.MainPanel;;
+import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;;
 
-public class Space_StartPanel extends JPanel {
+public class Space_StartPanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private JButton btStart, btRule, btBackToGameList;
@@ -75,8 +76,7 @@ public class Space_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSpaceInvadersPanel();
-				setVisible(false);
+				main.show(MainPanel.SPACE_GAME);
 			}
 		});
 
@@ -84,8 +84,7 @@ public class Space_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showSpace_RulePanel();
-				setVisible(false);
+				main.show(MainPanel.SPACE_RULES);
 			}
 		});
 
@@ -93,8 +92,7 @@ public class Space_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showGamePanel();
-				setVisible(false);
+				main.show(MainPanel.GAMES_PAGE_1);
 			}
 		});
 	}

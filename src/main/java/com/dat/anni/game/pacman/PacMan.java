@@ -284,6 +284,23 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
+	public void resetGame() {
+		loadMap();
+		resetPositions();
+		lives = 3;
+		score = 0;
+		gameOver = false;
+		gameLoop.stop();
+	}
+
+	public void pauseGame() {
+		gameLoop.stop();
+	}
+
+	public void resumeGame() {
+		gameLoop.start();
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		move();

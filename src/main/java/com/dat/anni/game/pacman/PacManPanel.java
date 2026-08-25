@@ -16,8 +16,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
+import com.dat.anni.gui.Navigable;
 
-public class PacManPanel extends JPanel {
+public class PacManPanel extends JPanel implements Navigable, MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private PacMan pacMan;
@@ -74,10 +76,19 @@ public class PacManPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showPac_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.PAC_START);
 			}
 		});
+	}
+
+	@Override
+	public void onEnter() {
+		pacMan.resumeGame();
+	}
+
+	@Override
+	public void onLeave() {
+		pacMan.resetGame();
 	}
 
 	@Override

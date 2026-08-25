@@ -14,8 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;
+import com.dat.anni.gui.Navigable;
 
-public class ChromeDinosaurPanel extends JPanel {
+public class ChromeDinosaurPanel extends JPanel implements Navigable, MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private Image backgroundImage;
@@ -64,10 +66,14 @@ public class ChromeDinosaurPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showDino_StartPanel();
-				setVisible(false);
+				main.show(MainPanel.DINO_START);
 			}
 		});
+	}
+
+	@Override
+	public void onLeave() {
+		chromeDinosaur.resetGame();
 	}
 
 	@Override

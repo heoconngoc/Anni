@@ -15,9 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.dat.anni.gui.MainPanel;;
+import com.dat.anni.gui.MainPanel;
+import com.dat.anni.gui.MainPanelAware;;
 
-public class Dino_StartPanel extends JPanel {
+public class Dino_StartPanel extends JPanel implements MainPanelAware {
 	private static final long serialVersionUID = 1L;
 	private MainPanel main;
 	private JButton btStart, btRule, btBackToGameList;
@@ -95,8 +96,7 @@ public class Dino_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showChromeDinosaurPanel();
-				setVisible(false);
+				main.show(MainPanel.DINO_GAME);
 			}
 		});
 
@@ -104,8 +104,7 @@ public class Dino_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showDino_RulePanel();
-				setVisible(false);
+				main.show(MainPanel.DINO_RULES);
 			}
 		});
 
@@ -113,8 +112,7 @@ public class Dino_StartPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.showGamePanel();
-				setVisible(false);
+				main.show(MainPanel.GAMES_PAGE_1);
 			}
 		});
 	}
