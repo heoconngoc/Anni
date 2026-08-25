@@ -33,6 +33,10 @@ mvn compile exec:java      # chạy app trực tiếp khi dev
 
 Yêu cầu: JDK 17+, Maven 3.8+.
 
+> **Lỗi "Unresolved compilation problem" khi `exec:java`?** Đó là class hỏng do IDE
+> (Eclipse/VS Code Java) ghi vào `target/classes` khi workspace chưa nhận diện package mới.
+> Chạy `mvn clean compile exec:java` (luôn có `clean`) và refresh/clean workspace của IDE.
+
 ## Cấu trúc thư mục
 
 ```
