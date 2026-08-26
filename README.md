@@ -28,6 +28,14 @@ score system with offline-first SQLite.
   fallback; GUI never knows which store answered
 - **Leaderboards** — top-3 per game + personal best, synced via server
 
+## Screenshots
+
+| Welcome Screen | Game List |
+|---|---|
+| ![Welcome Screen](docs/images/welcome.png) | ![Game List](docs/images/Game_list.png) |
+| Minesweeper | Pacman |
+| ![Minesweeper](docs/images/mines.png) | ![Pacman](docs/images/pacman1.png) |
+
 ## Tech Stack
 
 | Layer | Tech |
