@@ -10,19 +10,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.dat.anni.data.AppSession;
 
+import java.awt.GraphicsEnvironment;
+
 /**
  * Headless EDT test: boot → MENU → guest/special → HOME, plus HOME nav.
  * Cards checked by BFS for expected buttons; no real window needed.
+ * Self-skips in headless CI (JFrame needs a display).
  */
 class FlowNavigationTest {
 
 	@BeforeEach
 	void reset() {
+		Assumptions.assumeFalse(GraphicsEnvironment.isHeadless(),
+				"FlowNavigationTest requires a display — skipping in headless CI");
 		AppSession.logout();
 	}
 

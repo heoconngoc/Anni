@@ -11,10 +11,10 @@ score system with offline-first SQLite.
 ```
 .env ─▶ Config ─▶ name gate ─▶ guest letter · secret letter 1→2→3
                                         │
-                                      HOME
-                                   ╱    │     ╲
-                              Play   Scores   Thanks
-                              ╱
+                                       HOME
+                                    ╱        ╲
+                               PLAY         LOGOUT
+                                ╱
                   game select → game panel → scores
 ```
 
@@ -43,7 +43,7 @@ score system with offline-first SQLite.
 ```bash
 git clone https://github.com/heoconngoc/Anni.git && cd Anni
 cp .env.example .env               # dev defaults work as-is
-mvn clean install                  # build + test (~26 tests)
+mvn clean install                  # build + test
 
 java -jar app/target/anni-arcade.jar              # play offline
 java -jar server/target/anni-server.jar           # backend on :8080
@@ -65,8 +65,6 @@ LETTER_GUEST=Hi {name},\nWelcome to our little arcade!
 LETTER_SPECIAL_1=Part one — how it all started...
 LETTER_SPECIAL_2=Part two — everything since then...
 LETTER_SPECIAL_3=Part three — and whatever comes next.
-
-LETTER_THANKS=Thank you for playing, {name}! \nSee you again soon.
 ```
 
 `{name}` = entered username, `\n` = line break. Missing keys degrade gracefully.
@@ -93,4 +91,33 @@ server      Spring Boot — REST controller · JDBC repos · Flyway SQL
 - [`docs/CODING_CONVENTIONS.md`](docs/CODING_CONVENTIONS.md) — code style
 - [`docs/DECISIONS.md`](docs/DECISIONS.md) — ADRs D01–D16
 
-License: [MIT](LICENSE).
+---
+
+## License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE)
+file for details.
+
+```
+MIT License
+
+Copyright (c) 2026 heoconngoc
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
